@@ -1,0 +1,30 @@
+<view class="section">
+  <form bindsubmit='submitBooking'>
+    <scroll-view class="scroll-view_H" scroll-x style="width: 100%; white-space: nowrap; display: flex">
+      <radio-group class="radio-group" name="bookingdate" bindchange="radioChange">
+        <label class="radio" wx:for="{{dateDisplays}}" wx:key="value">
+          <radio value="{{item.value}}" checked="{{item.checked}}" />{{item.value}}
+        </label>
+      </radio-group>
+    </scroll-view>
+    <scroll-view class="scroll-view_H" scroll-x style="width: 100%; white-space: nowrap; display: flex">
+      <scroll-view scroll-y style="width :50%;height: 200;display: inline-block" wx:for="{{mahjongtables}}" wx:for-item="table" wx:key="value">
+        <view>{{table.name}}</view>
+        <label class="timeDisplays" wx:for="{{tableTimeDisplays[table.value]}}" wx:key="value">
+          <block wx:if="{{item.display}}">
+            <view data-id="{{item.value}}" data-table="{{table.value}}" wx:if="{{item.booked}}" style="background-color:red">{{item.name}}{{item.nickname}}
+              <image class="image_frame" src="{{item.avatarurl}}" mode="scaleToFill" style="width: 16px; height: 16px;">
+              </image>
+            </view>
+            <view data-id="{{item.value}}" data-table="{{table.value}}" bindtap="selectBooking" wx:elif="{{item.selected}}" style="background-color:green">{{item.name}}</view>
+            <view data-id="{{item.value}}" data-table="{{table.value}}" bindtap="selectBooking" wx:else>{{item.name}}</view>
+          </block>
+        </label>
+      </scroll-view>
+    </scroll-view>
+    <view>
+      <input style="display: inline-block" display: inline-block name="phone" type="number" placeholder="请输入手机号" />
+    </view>
+    <button  style="opacity: {{opacity}};color: white; background-color: #ff8719;" form-type='submit' open-type="getUserInfo">预定</button>
+  </form>
+</view>
