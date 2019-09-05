@@ -22,12 +22,12 @@
     </navigator>
   </view>
 
-    <!-- 
-  <view class="test">
-    <navigator url="../test/test" open-type="navigate" class="uploader-text">
-      <text>test</text>
+  
+  <view class="uploader">
+    <navigator url="../myBooking/myBooking" open-type="navigate" class="uploader-text">
+      <text>我的预定</text>
     </navigator>
-  </view> -->
+  </view> 
 
 
 
