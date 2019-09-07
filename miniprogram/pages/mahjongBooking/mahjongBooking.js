@@ -172,7 +172,16 @@ Page({
 
   bookMahjongTable: function bookMahjongTable(event, nickName, avatarUrl) {
     const query = wx.createSelectorQuery();
-    console.log(event.detail.value.phone);
+    var phone=event.detail.value.phone
+    console.log(phone);
+    if (!(/^1[3456789]\d{9}$/.test(phone))) {
+      wx.showToast({
+        title: '请输出正确的手机号',
+        icon: 'none',
+        duration: 2000
+      })
+      return;
+    }
     var ttd = this.data.tableTimeDisplays;
     var ttdflat = ttd.filter(x => x != null)
       .flatMap(s => s)

@@ -1,19 +1,20 @@
-<wxs src="./myBooking.wxs" module="tutil" />
 <view class="table">
   <view class="tr bg-w">
-    <view class="th">开始时间</view>
-    <view class="th">预定时常</view>
-    <view class="th">桌子类型</view>
+    <view class="th" style="width:35%">时间</view>
+    <view class="th" style="width:15%">时常</view>
+    <view class="th" style="width:15%">桌子</view>
+    <view class="th" style="width:35%">手机号</view>
   </view>
   <block wx:for="{{myBs}}" wx:key="{{value}}">
     <view class="tr bg-g">
-      <view class="td">{{tutil.formatTime(item.start_time)}}</view>
-      <view class="td">{{item.last_time}}小时</view>
-      <view class="td" wx:if="{{item.table_id==1}}">八口麻将机</view>
-      <view class="td" wx:else>四口麻将机</view>
+      <view class="td" style="width:35%">{{item.formatTime}}</view>
+      <view class="td" style="width:15%">{{item.last_time}}小时</view>
+      <view class="td" style="width:15%" wx:if="{{item.table_id==1}}">八口</view>
+      <view class="td" style="width:15%" wx:else>四口</view>
+      <view class="td" style="width:35%">{{item.phone}}</view>
     </view>
   </block>
 </view>
-<view>取消预定请联系查米xxxxxxxx</view>
+<view>取消预定请联系查米</view>
 
 

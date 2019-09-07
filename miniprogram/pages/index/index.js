@@ -12,12 +12,13 @@ Page({
 
   onLoad: function() {
     if (!wx.cloud) {
+      console.log("!wx.cloud enter")
       wx.redirectTo({
         url: '../chooseLib/chooseLib',
       })
       return
     }
-
+    console.log("wx.cloud enter")
     // 获取用户信息
     wx.getSetting({
       success: res => {
@@ -34,6 +35,8 @@ Page({
         }
       }
     })
+
+    this.onGetOpenid()
   },
 
   onGetUserInfo: function(e) {
@@ -46,6 +49,31 @@ Page({
     }
   },
 
+  onGetRole:function(){
+    const db = wx.cloud.database()
+    const _ = db.command
+    //console.log(app.globalData.openid)
+    db.collection('role').where({
+      openid: app.globalData.openid,
+    }).get({
+      success: res => {
+        try {
+          //console.log(res)
+          //console.log(res.data)
+          if(res.data!=null){
+            app.globalData.role=res.data[0].role
+            this.setData({
+              role: res.data[0].role
+            })
+          }
+          //console.log(app.globalData.role)
+        } catch (e) {
+          console.log(e)
+        }
+      }
+    })
+  },
+
   onGetOpenid: function() {
     // 调用云函数
     wx.cloud.callFunction({
@@ -54,15 +82,10 @@ Page({
       success: res => {
         console.log('[云函数] [login] user openid: ', res.result.openid)
         app.globalData.openid = res.result.openid
-        wx.navigateTo({
-          url: '../userConsole/userConsole',
-        })
+        this.onGetRole()
       },
       fail: err => {
         console.error('[云函数] [login] 调用失败', err)
-        wx.navigateTo({
-          url: '../deployFunctions/deployFunctions',
-        })
       }
     })
   },

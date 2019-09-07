@@ -9,15 +9,15 @@
     </scroll-view>
     <scroll-view class="scroll-view_H" scroll-x style="width: 100%; white-space: nowrap; display: flex">
       <scroll-view scroll-y style="width :50%;height: 200;display: inline-block" wx:for="{{mahjongtables}}" wx:for-item="table" wx:key="value">
-        <view>{{table.name}}</view>
+        <view class="tablename">{{table.name}}</view>
         <label class="timeDisplays" wx:for="{{tableTimeDisplays[table.value]}}" wx:key="value">
           <block wx:if="{{item.display}}">
-            <view data-id="{{item.value}}" data-table="{{table.value}}" wx:if="{{item.booked}}" style="background-color:red">{{item.name}}{{item.nickname}}
+            <view class="tr" data-id="{{item.value}}" data-table="{{table.value}}" wx:if="{{item.booked}}" style="background-color:red">{{item.name}}{{item.nickname}}
               <image class="image_frame" src="{{item.avatarurl}}" mode="scaleToFill" style="width: 16px; height: 16px;">
               </image>
             </view>
-            <view data-id="{{item.value}}" data-table="{{table.value}}" bindtap="selectBooking" wx:elif="{{item.selected}}" style="background-color:green">{{item.name}}</view>
-            <view data-id="{{item.value}}" data-table="{{table.value}}" bindtap="selectBooking" wx:else>{{item.name}}</view>
+            <view class="tr" data-id="{{item.value}}" data-table="{{table.value}}" bindtap="selectBooking" wx:elif="{{item.selected}}" style="background-color:green">{{item.name}}</view>
+            <view class="tr" data-id="{{item.value}}" data-table="{{table.value}}" bindtap="selectBooking" wx:else>{{item.name}}</view>
           </block>
         </label>
       </scroll-view>

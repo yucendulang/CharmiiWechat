@@ -1,0 +1,9 @@
+.tablename {
+  border: 1px solid darkgray;
+  background: #E6F3F9;
+  text-align: center;
+}
+
+.bg-g{
+  background: #E6F3F9;
+}

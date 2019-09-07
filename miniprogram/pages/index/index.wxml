@@ -29,6 +29,13 @@
     </navigator>
   </view> 
 
+    
+  <view class="uploader" wx:if="{{role=='admin'}}">
+    <navigator url="../allBooking/allBooking" open-type="navigate" class="uploader-text">
+      <text>所有预定</text>
+    </navigator>
+  </view> 
+
 
 
 </view>

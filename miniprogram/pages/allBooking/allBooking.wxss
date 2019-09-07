@@ -4,15 +4,14 @@
 .tr {
   display: flex;
   width: 100%;
-  justify-content: flex-start;
-  height: 3rem;
+  justify-content: center;
+  height: 2rem;
   align-items: center;
   text-align: center;
+  font-size:12px;
 }
 .td {
-    width:30%;
-    font-size: 16px;
-    text-align: center;
+    width:15%;
 }
 .bg-w{
   background: snow;
@@ -21,12 +20,9 @@
   background: #E6F3F9;
 }
 .th {
+  width: 40%;
   background: #3366FF;
   color: #fff;
-  height: 3rem;
-  text-align: center;
-}
-
-.wrap {
-  flex-wrap: wrap
+  height: 2rem;
+  font-size:16px;
 }
