@@ -123,7 +123,14 @@ Page({
 
           console.log('所有的修正', fix);
           that.setData(fix)
-          var isSubmitOk = this.data.tableTimeDisplays.flatMap(x => x).find(x => x.selected == true) != null
+          var isSubmitOk =false
+          for (var i = 0; i < tableTimeDisplays.length;i++){
+            for(var j=0;j<tableTimeDisplays[i].length;j++){
+              if (tableTimeDisplays[i][j].selected==true){
+                isSubmitOk=true
+              }
+            }
+          }
           this.setData({
             opacity: isSubmitOk ? 1 : 0.4
           });
