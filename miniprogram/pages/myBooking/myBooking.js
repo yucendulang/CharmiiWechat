@@ -27,6 +27,7 @@ Page({
     db.collection('mahjong_table_schedule').where({
       start_time: _.gte(d),
       openid: opid,
+      status:_.neq('C')
     }).get({
       success: res => {
         try {

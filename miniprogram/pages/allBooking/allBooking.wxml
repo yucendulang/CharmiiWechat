@@ -9,7 +9,7 @@
   </view>
   <block wx:for="{{myBs}}" wx:key="{{value}}">
     <view class="tr bg-g">
-      <view class="td" style="width:30%">{{item.formatTime}}</view>
+      <view class="td" style="width:20%">{{item.formatTime}}</view>
       <view class="td" style="width:10%">{{item.last_time}}小时</view>
       <view class="td" style="width:10%" wx:if="{{item.table_id==1}}">八口</view>
       <view class="td" style="width:10%" wx:else>四口</view>
@@ -17,6 +17,7 @@
       <view class="td" style="width:10%">{{item.nick_name}}</view>
       <image class="image_frame" src="{{item.avatar_url}}" mode="scaleToFill" style="width: 10%; height: 2rem;">
       </image>
+      <button type="warn" size="mini" bindtap="cancelOrder" style="width: 10%; height: 2rem;" data-id="{{item._id}}">C</button>
     </view>
   </block>
 </view>

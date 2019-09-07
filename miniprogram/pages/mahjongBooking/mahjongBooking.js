@@ -80,6 +80,7 @@ Page({
     onlyDate.setHours(0, 0, 0, 0);
     db.collection('mahjong_table_schedule').where({
       start_time: _.gte(onlyDate).and(_.lte(that.addDays(onlyDate, 1))),
+      status: _.neq('C') 
     }).get({
       success: res => {
         console.log('[数据库] [查询记录] 成功: ', res.data)

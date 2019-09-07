@@ -25,6 +25,7 @@ Page({
     if(app.globalData.role=='admin'){
       db.collection('mahjong_table_schedule').where({
         start_time: _.gte(d),
+        status: _.neq('C')
       }).get({
         success: res => {
           try {
@@ -47,6 +48,7 @@ Page({
       db.collection('mahjong_table_schedule').where({
         start_time: _.gte(d),
         openid: opid,
+        status: _.neq('C'),
       }).get({
         success: res => {
           try {
@@ -88,5 +90,30 @@ Page({
       default: xingqi = "系统错误！"
     }
     return month + '-' + day + ' ' + xingqi + ' ' + hour + '点'
+  },
+  cancelOrder: function (event){
+    var id=event.target.dataset['id'];
+    console.log(id)
+    const db = wx.cloud.database()
+    db.collection('mahjong_table_schedule').doc(id)
+    .update({
+      data: {
+        status:'C'
+      },
+      success: res => {
+        // 在返回结果中会包含新创建的记录的 _id
+        wx.showToast({
+          title: '取消成功',
+        })
+        console.log('[数据库] [新增记录] 成功，记录 _id: ', res._id)
+      },
+      fail: err => {
+        wx.showToast({
+          icon: 'none',
+          title: '取消失败'
+        })
+        console.error('[数据库] [新增记录] 失败：', err)
+      }
+    })
   }
 })
