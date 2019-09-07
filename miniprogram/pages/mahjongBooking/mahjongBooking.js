@@ -123,14 +123,7 @@ Page({
 
           console.log('所有的修正', fix);
           that.setData(fix)
-          var isSubmitOk =false
-          for (var i = 0; i < tableTimeDisplays.length;i++){
-            for(var j=0;j<tableTimeDisplays[i].length;j++){
-              if (tableTimeDisplays[i][j].selected==true){
-                isSubmitOk=true
-              }
-            }
-          }
+          var isSubmitOk = this.isSubmitOk(ttd)
           this.setData({
             opacity: isSubmitOk ? 1 : 0.4
           });
@@ -159,10 +152,29 @@ Page({
       [fix]: this.data.tableTimeDisplays[tableid][displayTimeIndex].selected == false,
     });
 
-    var isSubmitOk = this.data.tableTimeDisplays.flatMap(x => x).find(x => x.selected == true) != null
+    var isSubmitOk = this.isSubmitOK(this.data.tableTimeDisplays)
+
     this.setData({
       opacity: isSubmitOk ? 1 : 0.4
     });
+  },
+
+  isSubmitOK: function (tableTimeDisplays){
+    var result=false
+    for (var i = 0; i < tableTimeDisplays.length; i++) {
+      if (tableTimeDisplays[i]==null){
+        continue
+      }
+      for (var j = 0; j < tableTimeDisplays[i].length; j++) {
+        if (tableTimeDisplays[i][j]==null){
+          continue
+        }
+        if (tableTimeDisplays[i][j].selected == true) {
+          result = true
+        }
+      }
+    }
+    return result;
   },
 
   submitBooking: function(event) {
@@ -191,10 +203,22 @@ Page({
       return;
     }
     var ttd = this.data.tableTimeDisplays;
-    var ttdflat = ttd.filter(x => x != null)
-      .flatMap(s => s)
-      .filter(x => x != null)
-      .filter(x => x.selected == true);
+    var ttdflat=[]
+
+    for (var i = 0; i < ttd.length; i++) {
+      if (ttd[i] == null) {
+        continue
+      }
+      for (var j = 0; j < ttd[i].length; j++) {
+        if (ttd[i][j] == null) {
+          continue
+        }
+        if (ttd[i][j].selected == true) {
+          ttdflat.push(ttd[i][j])
+        }
+      }
+    }
+
     var bookTimes = this.groupBy(ttdflat, ttdflat => ttdflat.tableid);
     if (bookTimes.length > 1) {
       wx.showToast({
