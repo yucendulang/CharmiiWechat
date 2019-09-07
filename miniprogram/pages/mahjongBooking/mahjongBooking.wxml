@@ -24,9 +24,10 @@
         </label>
       </scroll-view>
     </scroll-view>
-    <view>
-      <input style="display: inline-block" display: inline-block name="phone" type="number" placeholder="请输入手机号" />
+    <view style="margin:3%;display:flex;flex-wrap: nowrap; flex-direction: row;justify-content:space-around">
+    <view>手机号:</view>
+      <input class="phone-input" style="display: inline-block" display: inline-block name="phone" type="number" placeholder="请输入手机号" />
     </view>
-    <button  style="opacity: {{opacity}};color: white; background-color: #ff8719;" form-type='submit' open-type="getUserInfo" disabled="{{opacity!=1}}">预定</button>
+    <button  style="opacity: {{opacity}};color: white; background-color: #ff8719;width:90%" form-type='submit' open-type="getUserInfo" disabled="{{opacity!=1}}">预定</button>
   </form>
 </view>

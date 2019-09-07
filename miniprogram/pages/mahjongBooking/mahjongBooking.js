@@ -124,7 +124,7 @@ Page({
 
           console.log('所有的修正', fix);
           that.setData(fix)
-          var isSubmitOk = this.isSubmitOk(ttd)
+          var isSubmitOk = this.isSubmitOK(ttd)
           this.setData({
             opacity: isSubmitOk ? 1 : 0.4
           });

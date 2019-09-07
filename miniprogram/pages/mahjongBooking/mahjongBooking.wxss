@@ -7,3 +7,19 @@
 .bg-g{
   background: #E6F3F9;
 }
+
+.phone-input:focus,
+.phone-textarea:focus {
+	border-color: rgba(91, 192, 222, 0.8) !important;
+	-webkit-box-shadow: 0 0 5px rgba(91, 192, 222, .5);
+	-moz-box-shadow: 0 0 5px rgba(91, 192, 222, .5);
+	box-shadow: 0 0 5px rgba(91, 192, 222, .5);
+}
+
+.phone-input:hover,
+.phone-textarea:hover {
+	border-color: rgba(91, 192, 222, 0.8) !important;
+	-webkit-box-shadow: 0 0 5px rgba(91, 192, 222, .5);
+	-moz-box-shadow: 0 0 5px rgba(91, 192, 222, .5);
+	box-shadow: 0 0 5px rgba(91, 192, 222, .5);
+}
