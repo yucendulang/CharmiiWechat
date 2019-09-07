@@ -22,10 +22,8 @@ Page({
     const _ = db.command
 
     var opid
-    if(app.globalData.role=='admin'){
       db.collection('mahjong_table_schedule').where({
         start_time: _.gte(d),
-        status: _.neq('C')
       }).get({
         success: res => {
           try {
@@ -43,32 +41,8 @@ Page({
           }
         }
       })
-    }else{
-      opid = app.globalData.openid
-      db.collection('mahjong_table_schedule').where({
-        start_time: _.gte(d),
-        openid: opid,
-        status: _.neq('C'),
-      }).get({
-        success: res => {
-          try {
-            var myBs = res.data
-            for (var i = 0; i < myBs.length; i++) {
-              //console.log(myBs.start_time)
-              myBs[i].formatTime = this.formatTime(myBs[i].start_time)
-            }
-            console.log('查到的openid:' + app.globalData.openid)
-            console.log('我的预定的数据:', myBs)
-            this.setData({
-              myBs
-            }
-            )
-          } catch (e) {
-            console.log(e)
-          }
-        }
-      })
-    }
+   
+    
    
   },
 

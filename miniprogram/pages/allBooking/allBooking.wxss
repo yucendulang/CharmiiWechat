@@ -8,7 +8,7 @@
   height: 2rem;
   align-items: center;
   text-align: center;
-  font-size:12px;
+  font-size:10px;
 }
 .td {
     width:15%;
@@ -24,5 +24,5 @@
   background: #3366FF;
   color: #fff;
   height: 2rem;
-  font-size:16px;
+  font-size:12px;
 }

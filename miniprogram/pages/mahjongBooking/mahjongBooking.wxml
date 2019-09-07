@@ -12,8 +12,10 @@
         <view class="tablename">{{table.name}}</view>
         <label class="timeDisplays" wx:for="{{tableTimeDisplays[table.value]}}" wx:key="value">
           <block wx:if="{{item.display}}">
-            <view class="tr" data-id="{{item.value}}" data-table="{{table.value}}" wx:if="{{item.booked}}" style="background-color:red">{{item.name}}{{item.nickname}}
-              <image class="image_frame" src="{{item.avatarurl}}" mode="scaleToFill" style="width: 16px; height: 16px;">
+            <view class="tr" data-id="{{item.value}}" data-table="{{table.value}}" wx:if="{{item.booked}}" style="display:flex;background-color:red;flex-wrap: nowrap; flex-direction: row">
+            <view>{{item.name}}</view>
+            <view style="font-size:10px" wx:if="{{role=='admin'}}">{{item.nickname}}</view>
+            <image wx:if="{{role=='admin'}}" class="image_frame" src="{{item.avatarurl}}" mode="scaleToFill" style="width: 16px; height: 16px;">
               </image>
             </view>
             <view class="tr" data-id="{{item.value}}" data-table="{{table.value}}" bindtap="selectBooking" wx:elif="{{item.selected}}" style="background-color:green">{{item.name}}</view>

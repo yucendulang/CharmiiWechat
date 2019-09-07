@@ -52,7 +52,8 @@ Page({
 
     this.setData({
       tableTimeDisplays,
-      dateDisplays
+      dateDisplays,
+      role: app.globalData.role,
     })
 
     this.queryBooking(dateDisplays[1].date, this)

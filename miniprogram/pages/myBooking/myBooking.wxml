@@ -1,20 +1,22 @@
 <view class="table">
   <view class="tr bg-w">
-    <view class="th" style="width:35%">时间</view>
+    <view class="th" style="width:30%">时间</view>
     <view class="th" style="width:15%">时常</view>
     <view class="th" style="width:15%">桌子</view>
-    <view class="th" style="width:35%">手机号</view>
+    <view class="th" style="width:30%">手机号</view>
+    <view class="th" style="width:10%">取消</view>
   </view>
   <block wx:for="{{myBs}}" wx:key="{{value}}">
     <view class="tr bg-g">
-      <view class="td" style="width:35%">{{item.formatTime}}</view>
+      <view class="td" style="width:30%">{{item.formatTime}}</view>
       <view class="td" style="width:15%">{{item.last_time}}小时</view>
       <view class="td" style="width:15%" wx:if="{{item.table_id==1}}">八口</view>
       <view class="td" style="width:15%" wx:else>四口</view>
-      <view class="td" style="width:35%">{{item.phone}}</view>
+      <view class="td" style="width:30%">{{item.phone}}</view>
+      <button type="warn" size="mini" bindtap="cancelOrder" style="width: 10%; height: 2rem;" data-id="{{item._id}}">C</button>
     </view>
   </block>
 </view>
-<view>取消预定请联系查米</view>
+<view>点击红色按钮取消预定</view>
 
 
