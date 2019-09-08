@@ -13,10 +13,10 @@
       <view class="td" style="width:15%" wx:if="{{item.table_id==1}}">八口</view>
       <view class="td" style="width:15%" wx:else>四口</view>
       <view class="td" style="width:30%">{{item.phone}}</view>
-      <button type="warn" size="mini" bindtap="cancelOrder" style="width: 10%; height: 2rem;" data-id="{{item._id}}">C</button>
+      <button type="warn" size="mini" bindtap="cancelOrder" style="width: 10%; height: 2rem;" data-id="{{item._id}}">
+        C
+      </button>
     </view>
   </block>
 </view>
 <view>点击红色按钮取消预定</view>
-
-

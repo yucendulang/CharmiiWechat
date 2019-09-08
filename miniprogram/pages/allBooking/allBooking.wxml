@@ -17,10 +17,7 @@
       <view class="td" style="width:30%">{{item.phone}}</view>
       <view class="td" style="width:5%">{{item.status}}</view>
       <view class="td" style="width:15%">{{item.nick_name}}</view>
-      <image class="image_frame" src="{{item.avatar_url}}" mode="scaleToFill" style="width: 10%; height: 2rem;">
-      </image>
+      <image class="image_frame" src="{{item.avatar_url}}" mode="scaleToFill" style="width: 10%; height: 2rem;"></image>
     </view>
   </block>
 </view>
-
-

@@ -10,43 +10,43 @@ Page({
     },
     ],
     openid: app.globalData.openid,
-    test:'test'
+    test: 'test'
   },
 
   onLoad: function (options) {
 
     var d = new Date();
     d.setHours(0, 0, 0, 0);
-      
+
     const db = wx.cloud.database()
     const _ = db.command
 
     var opid
-      db.collection('mahjong_table_schedule').where({
-        start_time: _.gte(d),
-      }).get({
-        success: res => {
-          try {
-            var myBs = res.data
-            for (var i = 0; i < myBs.length; i++) {
-              myBs[i].formatTime = this.formatTime(myBs[i].start_time)
-            }
-            this.setData({
-              myBs,
-              role:app.globalData.role
-            }
-            )
-          } catch (e) {
-            console.log(e)
+    db.collection('mahjong_table_schedule').where({
+      start_time: _.gte(d),
+    }).get({
+      success: res => {
+        try {
+          var myBs = res.data
+          for (var i = 0; i < myBs.length; i++) {
+            myBs[i].formatTime = this.formatTime(myBs[i].start_time)
           }
+          this.setData({
+            myBs,
+            role: app.globalData.role
+          }
+          )
+        } catch (e) {
+          console.log(e)
         }
-      })
-   
-    
-   
+      }
+    })
+
+
+
   },
 
-  formatTime :function (date1) {
+  formatTime: function (date1) {
     var date = new Date(date1); //返回当前时间对象
     var month = date.getMonth() + 1
     var day = date.getDate()
@@ -65,29 +65,29 @@ Page({
     }
     return month + '-' + day + ' ' + xingqi + ' ' + hour + '点'
   },
-  cancelOrder: function (event){
-    var id=event.target.dataset['id'];
+  cancelOrder: function (event) {
+    var id = event.target.dataset['id'];
     console.log(id)
     const db = wx.cloud.database()
     db.collection('mahjong_table_schedule').doc(id)
-    .update({
-      data: {
-        status:'C'
-      },
-      success: res => {
-        // 在返回结果中会包含新创建的记录的 _id
-        wx.showToast({
-          title: '取消成功',
-        })
-        console.log('[数据库] [新增记录] 成功，记录 _id: ', res._id)
-      },
-      fail: err => {
-        wx.showToast({
-          icon: 'none',
-          title: '取消失败'
-        })
-        console.error('[数据库] [新增记录] 失败：', err)
-      }
-    })
+      .update({
+        data: {
+          status: 'C'
+        },
+        success: res => {
+          // 在返回结果中会包含新创建的记录的 _id
+          wx.showToast({
+            title: '取消成功',
+          })
+          console.log('[数据库] [新增记录] 成功，记录 _id: ', res._id)
+        },
+        fail: err => {
+          wx.showToast({
+            icon: 'none',
+            title: '取消失败'
+          })
+          console.error('[数据库] [新增记录] 失败：', err)
+        }
+      })
   }
 })

@@ -1,21 +1,21 @@
 const app = getApp()
-const preorderdaylength=30
+const preorderdaylength = 30
 
 Page({
   data: {
     mahjongtables: [{
-        name: '八口麻将机',
-        value: '1',
-        checked: 'true'
-      },
-      {
-        name: '四口麻将机',
-        value: '2',
-      },
+      name: '八口麻将机',
+      value: '1',
+      checked: 'true'
+    },
+    {
+      name: '四口麻将机',
+      value: '2',
+    },
     ],
     opacity: 0.4,
   },
-  onLoad: function(options) {
+  onLoad: function (options) {
 
     var tableTimeDisplays = new Array();
     var tid;
@@ -63,9 +63,9 @@ Page({
 
 
   },
-  radioChange: function(e) {
+  radioChange: function (e) {
     console.log('radio发生change事件，携带value值为：', e.detail.value)
-    this.queryBooking(new Date(e.detail.value), this,this.refreshTable)
+    this.queryBooking(new Date(e.detail.value), this, this.refreshTable)
   },
   addDays: function addDays(date, days) {
     var result = new Date(date);
@@ -73,7 +73,7 @@ Page({
     return result;
   },
 
-  queryBooking: function queryBooking(date, thats,func) {
+  queryBooking: function queryBooking(date, thats, func) {
     const db = wx.cloud.database()
     const _ = db.command
     // 查询当前用户所有的 预定
@@ -82,7 +82,7 @@ Page({
     onlyDate.setHours(0, 0, 0, 0);
     db.collection('mahjong_table_schedule').where({
       start_time: _.gte(onlyDate).and(_.lte(this.addDays(onlyDate, 1))),
-      status: _.neq('C') 
+      status: _.neq('C')
     }).get({
       success: res => {
         func(res)
@@ -97,7 +97,7 @@ Page({
     })
   },
 
-  refreshTable:function(res){
+  refreshTable: function (res) {
     //console.log('[数据库] [查询记录] 成功: ', res.data)
     try {
       var fix = new Map();
@@ -165,14 +165,14 @@ Page({
     });
   },
 
-  isSubmitOK: function (tableTimeDisplays){
-    var result=false
+  isSubmitOK: function (tableTimeDisplays) {
+    var result = false
     for (var i = 0; i < tableTimeDisplays.length; i++) {
-      if (tableTimeDisplays[i]==null){
+      if (tableTimeDisplays[i] == null) {
         continue
       }
       for (var j = 0; j < tableTimeDisplays[i].length; j++) {
-        if (tableTimeDisplays[i][j]==null){
+        if (tableTimeDisplays[i][j] == null) {
           continue
         }
         if (tableTimeDisplays[i][j].selected == true) {
@@ -183,11 +183,11 @@ Page({
     return result;
   },
 
-  submitBooking: function(event) {
+  submitBooking: function (event) {
     var that = this
     // 必须是在用户已经授权的情况下调用
     wx.getUserInfo({
-      success: function(res) {
+      success: function (res) {
         var userInfo = res.userInfo
         var nickName = userInfo.nickName
         var avatarUrl = userInfo.avatarUrl
@@ -198,7 +198,7 @@ Page({
 
   bookMahjongTable: function bookMahjongTable(event, nickName, avatarUrl) {
     const query = wx.createSelectorQuery();
-    var phone=event.detail.value.phone
+    var phone = event.detail.value.phone
     console.log(phone);
     if (!(/^1[3456789]\d{9}$/.test(phone))) {
       wx.showToast({
@@ -209,7 +209,7 @@ Page({
       return;
     }
     var ttd = this.data.tableTimeDisplays;
-    var ttdflat=[]
+    var ttdflat = []
 
     for (var i = 0; i < ttd.length; i++) {
       if (ttd[i] == null) {
@@ -245,26 +245,26 @@ Page({
       })
       return;
     }
-    this.lock(function (that){
+    this.lock(function (that) {
       var d = new Date(event.detail.value.bookingdate);
       d.setHours(bookTimesOneTable[0].value);
-      that.queryBooking(d,that,function(res){
-        var flag=true
-        var blength=bookTimesOneTable.length
-        var bhours=d.getHours()
+      that.queryBooking(d, that, function (res) {
+        var flag = true
+        var blength = bookTimesOneTable.length
+        var bhours = d.getHours()
         res.data.forEach(function (value, index, array) {
           var h = value.start_time.getHours();
           var l = value.last_time;
           var tid = value.table_id;
-          if (tid != bookTimesOneTable[0].tableid){
+          if (tid != bookTimesOneTable[0].tableid) {
             return;
           }
-          if (((bhours <= h) && (bhours + blength > h)) ||( (h<=bhours)&&(h+l>bhours))){
-            console.log("时间 时常 已预定时间 时常 冲突:",bhours,blength,h,l)
-            flag=false
+          if (((bhours <= h) && (bhours + blength > h)) || ((h <= bhours) && (h + l > bhours))) {
+            console.log("时间 时常 已预定时间 时常 冲突:", bhours, blength, h, l)
+            flag = false
           }
         })
-        if (!flag){
+        if (!flag) {
           wx.showToast({
             icon: 'none',
             title: '有人先下手为强了',
@@ -309,55 +309,55 @@ Page({
   },
   groupBy: function groupBy(array, f) {
     let groups = {};
-    array.forEach(function(o) {
+    array.forEach(function (o) {
       let group = JSON.stringify(f(o));
       groups[group] = groups[group] || [];
       groups[group].push(o);
     });
-    return Object.keys(groups).map(function(group) {
+    return Object.keys(groups).map(function (group) {
       return groups[group];
     });
   },
-  lock:function (f,date,tableid){
+  lock: function (f, date, tableid) {
     console.log('进入lock')
     const db = wx.cloud.database()
     const _ = db.command
-    try{
+    try {
       db.collection('lock').add(
         {
-          data:{
-          lock:1,
-          datecreate_lasttime: new Date(),
+          data: {
+            lock: 1,
+            datecreate_lasttime: new Date(),
             _id: app.globalData.openid,
           },
-          success:res=>{
-            try{
-            var dateJustNow = new Date(new Date().valueOf()-30*1000)
-            console.log('lock成功,查询这个时间点以后的lock锁', dateJustNow)
-            db.collection('lock')
-              .where({
-                datecreate_lasttime: _.gte(dateJustNow)
-              }).count({
-              success: res => {
-                console.log('lock count:',res.total)
-                if(res.total==1){
-                   f(this)
-                }else{
-                  wx.showToast({
-                    icon: 'none',
-                    title: '有人正在同时预定请稍后重试'
-                  })
-                  this.unlock()
+          success: res => {
+            try {
+              var dateJustNow = new Date(new Date().valueOf() - 30 * 1000)
+              console.log('lock成功,查询这个时间点以后的lock锁', dateJustNow)
+              db.collection('lock')
+                .where({
+                  datecreate_lasttime: _.gte(dateJustNow)
+                }).count({
+                  success: res => {
+                    console.log('lock count:', res.total)
+                    if (res.total == 1) {
+                      f(this)
+                    } else {
+                      wx.showToast({
+                        icon: 'none',
+                        title: '有人正在同时预定请稍后重试'
+                      })
+                      this.unlock()
+                    }
+                  },
+                  fail: err => {
+                    console.error('lock count!=1 失败')
+                    this.unlock()
+                  }
                 }
-              },
-              fail: err => {
-                console.error('lock count!=1 失败')
-                this.unlock()
-              }
-            }
-            )
+                )
 
-            }catch(e){
+            } catch (e) {
               console.log(e)
             }
           },
@@ -367,12 +367,12 @@ Page({
           }
         })
     }
-    catch(e){
+    catch (e) {
       console.log(e)
       this.unlock()
     }
   },
-  unlock:function(){
+  unlock: function () {
     console.log('进入unlock')
     const db = wx.cloud.database()
     const _ = db.command

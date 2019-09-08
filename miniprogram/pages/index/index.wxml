@@ -1,9 +1,7 @@
-<!--index.wxml-->
+<!-- index.wxml -->
 <view class="container">
-
   <!-- 用户 openid -->
-  <!--
-  <view class="userinfo">
+  <!-- <view class="userinfo">
     <button 
       open-type="getUserInfo" 
       bindgetuserinfo="onGetUserInfo"
@@ -14,29 +12,21 @@
       <button class="userinfo-nickname" bindtap="onGetOpenid">点击获取 openid</button>
     </view>
   </view> -->
-
   <!-- 日麻预定 -->
   <view class="uploader">
     <navigator url="../mahjongBooking/mahjongBooking" open-type="navigate" class="uploader-text">
       <text>日麻预定</text>
     </navigator>
   </view>
-
-  
   <view class="uploader">
     <navigator url="../myBooking/myBooking" open-type="navigate" class="uploader-text">
       <text>我的预定</text>
     </navigator>
-  </view> 
-
-    
+  </view>
   <view class="uploader" wx:if="{{role=='admin'}}">
     <navigator url="../allBooking/allBooking" open-type="navigate" class="uploader-text">
       <text>所有预定</text>
     </navigator>
-  </view> 
-
-      
-  <view>0.3.4</view> 
-
+  </view>
+  <view>0.3.4</view>
 </view>
