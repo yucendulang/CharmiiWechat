@@ -56,7 +56,7 @@ Page({
       role: app.globalData.role,
     })
 
-    this.queryBooking(dateDisplays[1].date, this)
+    this.queryBooking(dateDisplays[1].date, this, this.refreshTable)
 
 
 
@@ -64,7 +64,7 @@ Page({
   },
   radioChange: function(e) {
     console.log('radio发生change事件，携带value值为：', e.detail.value)
-    this.queryBooking(new Date(e.detail.value), this)
+    this.queryBooking(new Date(e.detail.value), this,this.refreshTable)
   },
   addDays: function addDays(date, days) {
     var result = new Date(date);
@@ -72,7 +72,7 @@ Page({
     return result;
   },
 
-  queryBooking: function queryBooking(date, that) {
+  queryBooking: function queryBooking(date, thats,func) {
     const db = wx.cloud.database()
     const _ = db.command
     // 查询当前用户所有的 预定
@@ -80,57 +80,11 @@ Page({
     var onlyDate = new Date(date);
     onlyDate.setHours(0, 0, 0, 0);
     db.collection('mahjong_table_schedule').where({
-      start_time: _.gte(onlyDate).and(_.lte(that.addDays(onlyDate, 1))),
+      start_time: _.gte(onlyDate).and(_.lte(this.addDays(onlyDate, 1))),
       status: _.neq('C') 
     }).get({
       success: res => {
-        console.log('[数据库] [查询记录] 成功: ', res.data)
-        try {
-          var fix = new Map();
-          var ttd = that.data.tableTimeDisplays;
-          for (var i = 0; i < ttd.length; i++) {
-            if (ttd[i] == null) {
-              continue;
-            }
-            for (var j = 0; j < ttd[i].length; j++) {
-              if (ttd[i][j] == null) {
-                continue;
-              }
-              if (ttd[i][j].booked == true) {
-                fix['tableTimeDisplays[' + i + '][' + j + '].booked'] = false
-              }
-              if (ttd[i][j].selected == true) {
-                fix['tableTimeDisplays[' + i + '][' + j + '].selected'] = false
-              }
-            }
-          }
-
-          console.log('数据库结果之前需要修正的[fix]:', fix)
-
-          res.data.forEach(function(value, index, array) {
-
-            var h = value.start_time.getHours();
-            var l = value.last_time;
-            var tid = value.table_id;
-
-            var i;
-
-            for (i = h; i < h + l; i++) {
-              fix['tableTimeDisplays[' + tid + '][' + i + '].booked'] = true
-              fix['tableTimeDisplays[' + tid + '][' + i + '].nickname'] = value.nick_name
-              fix['tableTimeDisplays[' + tid + '][' + i + '].avatarurl'] = value.avatar_url
-            }
-          })
-
-          console.log('所有的修正', fix);
-          that.setData(fix)
-          var isSubmitOk = this.isSubmitOK(ttd)
-          this.setData({
-            opacity: isSubmitOk ? 1 : 0.4
-          });
-        } catch (e) {
-          console.log(e);
-        }
+        func(res)
       },
       fail: err => {
         wx.showToast({
@@ -140,6 +94,56 @@ Page({
         console.error('[数据库] [查询记录] 失败：', err)
       }
     })
+  },
+
+  refreshTable:function(res){
+    //console.log('[数据库] [查询记录] 成功: ', res.data)
+    try {
+      var fix = new Map();
+      var ttd = this.data.tableTimeDisplays;
+      for (var i = 0; i < ttd.length; i++) {
+        if (ttd[i] == null) {
+          continue;
+        }
+        for (var j = 0; j < ttd[i].length; j++) {
+          if (ttd[i][j] == null) {
+            continue;
+          }
+          if (ttd[i][j].booked == true) {
+            fix['tableTimeDisplays[' + i + '][' + j + '].booked'] = false
+          }
+          if (ttd[i][j].selected == true) {
+            fix['tableTimeDisplays[' + i + '][' + j + '].selected'] = false
+          }
+        }
+      }
+
+      //console.log('数据库结果之前需要修正的[fix]:', fix)
+
+      res.data.forEach(function (value, index, array) {
+
+        var h = value.start_time.getHours();
+        var l = value.last_time;
+        var tid = value.table_id;
+
+        var i;
+
+        for (i = h; i < h + l; i++) {
+          fix['tableTimeDisplays[' + tid + '][' + i + '].booked'] = true
+          fix['tableTimeDisplays[' + tid + '][' + i + '].nickname'] = value.nick_name
+          fix['tableTimeDisplays[' + tid + '][' + i + '].avatarurl'] = value.avatar_url
+        }
+      })
+
+      //console.log('所有的修正', fix);
+      this.setData(fix)
+      var isSubmitOk = this.isSubmitOK(ttd)
+      this.setData({
+        opacity: isSubmitOk ? 1 : 0.4
+      });
+    } catch (e) {
+      console.log(e);
+    }
   },
 
   selectBooking: function selectBooking(event) {
@@ -240,38 +244,67 @@ Page({
       })
       return;
     }
-    var d = new Date(event.detail.value.bookingdate);
-    d.setHours(bookTimesOneTable[0].value);
-    const db = wx.cloud.database()
-    db.collection('mahjong_table_schedule').add({
-      data: {
-        last_time: bookTimesOneTable.length,
-        openid: app.globalData.openid,
-        start_time: d,
-        table_id: bookTimesOneTable[0].tableid,
-        phone: event.detail.value.phone,
-        nick_name: nickName,
-        avatar_url: avatarUrl
-      },
-      success: res => {
-        // 在返回结果中会包含新创建的记录的 _id
-
-        wx.showToast({
-          title: '预定成功',
+    this.lock(function (that){
+      var d = new Date(event.detail.value.bookingdate);
+      d.setHours(bookTimesOneTable[0].value);
+      that.queryBooking(d,that,function(res){
+        var flag=true
+        var blength=bookTimesOneTable.length
+        var bhours=d.getHours()
+        res.data.forEach(function (value, index, array) {
+          var h = value.start_time.getHours();
+          var l = value.last_time;
+          var tid = value.table_id;
+          if (tid != bookTimesOneTable[0].tableid){
+            return;
+          }
+          if (((bhours < h) && (bhours + blength > h)) ||( (h<bhours)&&(h+l>bhours))){
+            console.log("时间 时常 已预定时间 时常 冲突:",bhours,blength,h,l)
+            flag=false
+          }
         })
-        this.queryBooking(d, this)
-        console.log('[数据库] [新增记录] 成功，记录 _id: ', res._id)
-      },
-      fail: err => {
-        wx.showToast({
-          icon: 'none',
-          title: '预定失败'
+        if (!flag){
+          wx.showToast({
+            icon: 'none',
+            title: '有人先下手为强了',
+            duration: 2000
+          })
+          that.queryBooking(d, that, that.refreshTable)
+          that.unlock()
+          return
+        }
+        const db = wx.cloud.database()
+        db.collection('mahjong_table_schedule').add({
+          data: {
+            last_time: blength,
+            openid: app.globalData.openid,
+            start_time: d,
+            table_id: bookTimesOneTable[0].tableid,
+            phone: event.detail.value.phone,
+            nick_name: nickName,
+            avatar_url: avatarUrl
+          },
+          success: res => {
+            // 在返回结果中会包含新创建的记录的 _id
+            wx.showToast({
+              title: '预定成功',
+            })
+            that.queryBooking(d, that, that.refreshTable)
+            console.log('[数据库] [新增记录] 成功，记录 _id: ', res._id)
+            that.unlock()
+          },
+          fail: err => {
+            wx.showToast({
+              icon: 'none',
+              title: '预定失败'
+            })
+            that.queryBooking(d, that, that.refreshTable)
+            console.error('[数据库] [新增记录] 失败：', err)
+            that.unlock()
+          }
         })
-        this.queryBooking(d, this)
-        console.error('[数据库] [新增记录] 失败：', err)
-      }
+      })
     })
-
   },
   groupBy: function groupBy(array, f) {
     let groups = {};
@@ -283,5 +316,65 @@ Page({
     return Object.keys(groups).map(function(group) {
       return groups[group];
     });
+  },
+  lock:function (f,date,tableid){
+    console.log('进入lock')
+    const db = wx.cloud.database()
+    const _ = db.command
+    try{
+      db.collection('lock').add(
+        {
+          data:{
+          lock:1,
+          datecreate_lasttime: new Date(),
+            _id: app.globalData.openid,
+          },
+          success:res=>{
+            try{
+            var dateJustNow = new Date(new Date().valueOf()-30*1000)
+            console.log('lock成功,查询这个时间点以后的lock锁', dateJustNow)
+            db.collection('lock')
+              .where({
+                datecreate_lasttime: _.gte(dateJustNow)
+              }).count({
+              success: res => {
+                console.log('lock count:',res.total)
+                if(res.total==1){
+                   f(this)
+                }else{
+                  wx.showToast({
+                    icon: 'none',
+                    title: '有人正在同时预定请稍后重试'
+                  })
+                  this.unlock()
+                }
+              },
+              fail: err => {
+                console.error('lock count!=1 失败')
+                this.unlock()
+              }
+            }
+            )
+
+            }catch(e){
+              console.log(e)
+            }
+          },
+          fail: err => {
+            console.error('lock失败')
+            this.unlock()
+          }
+        })
+    }
+    catch(e){
+      console.log(e)
+      this.unlock()
+    }
+  },
+  unlock:function(){
+    console.log('进入unlock')
+    const db = wx.cloud.database()
+    const _ = db.command
+    db.collection('lock').doc(app.globalData.openid).remove()
   }
 })
