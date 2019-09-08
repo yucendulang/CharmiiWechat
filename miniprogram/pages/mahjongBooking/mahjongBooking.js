@@ -1,4 +1,5 @@
 const app = getApp()
+const preorderdaylength=30
 
 Page({
   data: {
@@ -39,7 +40,7 @@ Page({
     var d = new Date();
     d.setHours(0, 0, 0, 0);
     var dateDisplays = new Array();
-    for (i = 0; i < 14; i++) {
+    for (i = 0; i < preorderdaylength; i++) {
       dateDisplays[i] = {
         value: d.toLocaleDateString(),
         date: d
@@ -258,7 +259,7 @@ Page({
           if (tid != bookTimesOneTable[0].tableid){
             return;
           }
-          if (((bhours < h) && (bhours + blength > h)) ||( (h<bhours)&&(h+l>bhours))){
+          if (((bhours <= h) && (bhours + blength > h)) ||( (h<=bhours)&&(h+l>bhours))){
             console.log("时间 时常 已预定时间 时常 冲突:",bhours,blength,h,l)
             flag=false
           }
