@@ -1,17 +1,18 @@
 const app = getApp()
 const preorderdaylength = 30
+const bookingStartTime = 9
 
 Page({
   data: {
     mahjongtables: [{
-      name: '八口麻将机',
-      value: '1',
-      checked: 'true'
-    },
-    {
-      name: '四口麻将机',
-      value: '2',
-    },
+        name: '八口麻将机',
+        value: '1',
+        checked: 'true'
+      },
+      {
+        name: '四口麻将机',
+        value: '2',
+      },
     ],
     opacity: 0.4,
   },
@@ -23,7 +24,7 @@ Page({
       var timeDisplays = new Array();
       var i;
 
-      for (i = 8; i < 23; i++) {
+      for (i = bookingStartTime; i < 23; i++) {
         timeDisplays[i] = {
           name: i + ':00-' + (i + 1) + ':00',
           value: i,
@@ -41,8 +42,12 @@ Page({
     d.setHours(0, 0, 0, 0);
     var dateDisplays = new Array();
     for (i = 0; i < preorderdaylength; i++) {
+      var weekday=d.getDay()
+      if (weekday==0){
+        weekday="天"
+      }
       dateDisplays[i] = {
-        value: d.toLocaleDateString(),
+        value: (d.getMonth()+1)+"月"+d.getDate()+"日(星期"+weekday+")",
         date: d
       }
       d = this.addDays(d, 1);
@@ -323,51 +328,48 @@ Page({
     const db = wx.cloud.database()
     const _ = db.command
     try {
-      db.collection('lock').add(
-        {
-          data: {
-            lock: 1,
-            datecreate_lasttime: new Date(),
-            _id: app.globalData.openid,
-          },
-          success: res => {
-            try {
-              var dateJustNow = new Date(new Date().valueOf() - 30 * 1000)
-              console.log('lock成功,查询这个时间点以后的lock锁', dateJustNow)
-              db.collection('lock')
-                .where({
-                  datecreate_lasttime: _.gte(dateJustNow)
-                }).count({
-                  success: res => {
-                    console.log('lock count:', res.total)
-                    if (res.total == 1) {
-                      f(this)
-                    } else {
-                      wx.showToast({
-                        icon: 'none',
-                        title: '有人正在同时预定请稍后重试'
-                      })
-                      this.unlock()
-                    }
-                  },
-                  fail: err => {
-                    console.error('lock count!=1 失败')
+      db.collection('lock').add({
+        data: {
+          lock: 1,
+          datecreate_lasttime: new Date(),
+          _id: app.globalData.openid,
+        },
+        success: res => {
+          try {
+            var dateJustNow = new Date(new Date().valueOf() - 30 * 1000)
+            console.log('lock成功,查询这个时间点以后的lock锁', dateJustNow)
+            db.collection('lock')
+              .where({
+                datecreate_lasttime: _.gte(dateJustNow)
+              }).count({
+                success: res => {
+                  console.log('lock count:', res.total)
+                  if (res.total == 1) {
+                    f(this)
+                  } else {
+                    wx.showToast({
+                      icon: 'none',
+                      title: '有人正在同时预定请稍后重试'
+                    })
                     this.unlock()
                   }
+                },
+                fail: err => {
+                  console.error('lock count!=1 失败')
+                  this.unlock()
                 }
-                )
+              })
 
-            } catch (e) {
-              console.log(e)
-            }
-          },
-          fail: err => {
-            console.error('lock失败')
-            this.unlock()
+          } catch (e) {
+            console.log(e)
           }
-        })
-    }
-    catch (e) {
+        },
+        fail: err => {
+          console.error('lock失败')
+          this.unlock()
+        }
+      })
+    } catch (e) {
       console.log(e)
       this.unlock()
     }
