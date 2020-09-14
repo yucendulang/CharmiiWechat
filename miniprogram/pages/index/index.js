@@ -82,6 +82,7 @@ Page({
       success: res => {
         console.log('[云函数] [login] user openid: ', res.result.openid)
         app.globalData.openid = res.result.openid
+        this.setData({dataReady:true})
         this.onGetRole()
       },
       fail: err => {

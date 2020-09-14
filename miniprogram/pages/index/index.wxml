@@ -13,12 +13,12 @@
     </view>
   </view> -->
   <!-- 日麻预定 -->
-  <view class="uploader">
+  <view class="uploader" wx:if="{{dataReady==true}}">
     <navigator url="../mahjongBooking/mahjongBooking" open-type="navigate" class="uploader-text">
       <text>日麻预定</text>
     </navigator>
   </view>
-  <view class="uploader">
+  <view class="uploader" wx:if="{{dataReady==true}}">
     <navigator url="../myBooking/myBooking" open-type="navigate" class="uploader-text">
       <text>我的预定</text>
     </navigator>
@@ -28,5 +28,5 @@
       <text>所有预定</text>
     </navigator>
   </view>
-  <view>0.3.4</view>
+  <view>0.3.5</view>
 </view>

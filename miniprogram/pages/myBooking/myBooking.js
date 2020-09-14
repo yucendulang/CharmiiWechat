@@ -24,6 +24,13 @@ Page({
     var opid
 
     opid = app.globalData.openid
+    if (opid==null||opid==""){
+      wx.showToast({
+        title: '网络差请重启',
+      })
+      return
+    }
+
     db.collection('mahjong_table_schedule').where({
       start_time: _.gte(d),
       openid: opid,
