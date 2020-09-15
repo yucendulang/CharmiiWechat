@@ -47,14 +47,15 @@ Page({
         weekday="天"
       }
       dateDisplays[i] = {
-        value: (d.getMonth()+1)+"月"+d.getDate()+"日(星期"+weekday+")",
+        value: d.toLocaleDateString(),
+        displayValue: (d.getMonth()+1)+"月"+d.getDate()+"日(星期"+weekday+")",
         date: d
       }
       d = this.addDays(d, 1);
     }
     dateDisplays[1].checked = true;
 
-    console.log('[打印] [准备插入时间和日期数据] 成功: ')
+    //console.log('[打印] [准备插入时间和日期数据] 成功: ')
 
     this.setData({
       tableTimeDisplays,
@@ -69,7 +70,7 @@ Page({
 
   },
   radioChange: function (e) {
-    console.log('radio发生change事件，携带value值为：', e.detail.value)
+    //console.log('radio发生change事件，携带value值为：', e.detail.value)
     this.queryBooking(new Date(e.detail.value), this, this.refreshTable)
   },
   addDays: function addDays(date, days) {
@@ -103,7 +104,7 @@ Page({
   },
 
   refreshTable: function (res) {
-    //console.log('[数据库] [查询记录] 成功: ', res.data)
+    console.log('[数据库] [查询记录] 成功: ', res.data)
     try {
       var fix = new Map();
       var ttd = this.data.tableTimeDisplays;
@@ -125,7 +126,7 @@ Page({
       }
 
       //console.log('数据库结果之前需要修正的[fix]:', fix)
-
+      //console.log(res.data)
       res.data.forEach(function (value, index, array) {
 
         var h = value.start_time.getHours();

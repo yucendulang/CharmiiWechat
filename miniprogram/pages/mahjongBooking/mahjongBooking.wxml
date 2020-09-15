@@ -3,7 +3,7 @@
     <scroll-view class="scroll-view_H" scroll-x style="width: 100%; white-space: nowrap; display: flex">
       <radio-group class="radio-group" name="bookingdate" bindchange="radioChange">
         <label class="radio" wx:for="{{dateDisplays}}" wx:key="value">
-          <radio value="{{item.value}}" checked="{{item.checked}}" />
+          <radio value="{{item.value}}" name="{{item.displayValue}}" checked="{{item.checked}}" />
           {{item.value}}
         </label>
       </radio-group>
