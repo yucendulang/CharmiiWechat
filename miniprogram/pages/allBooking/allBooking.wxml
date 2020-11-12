@@ -6,6 +6,7 @@
     <view class="th" style="width:30%">手机号</view>
     <view class="th" style="width:5%">C</view>
     <view class="th" style="width:15%">昵称</view>
+    <view class="th" style="width:15%">分店</view>
     <view class="th" style="width:10%">头像</view>
   </view>
   <block wx:for="{{myBs}}" wx:key="{{value}}">
@@ -17,6 +18,7 @@
       <view class="td" style="width:30%">{{item.phone}}</view>
       <view class="td" style="width:5%">{{item.status}}</view>
       <view class="td" style="width:15%">{{item.nick_name}}</view>
+      <view class="td" style="width:15%">{{item.branch}}</view>
       <image class="image_frame" src="{{item.avatar_url}}" mode="scaleToFill" style="width: 10%; height: 2rem;"></image>
     </view>
   </block>

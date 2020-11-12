@@ -42,13 +42,13 @@ Page({
     d.setHours(0, 0, 0, 0);
     var dateDisplays = new Array();
     for (i = 0; i < preorderdaylength; i++) {
-      var weekday=d.getDay()
-      if (weekday==0){
-        weekday="天"
+      var weekday = d.getDay()
+      if (weekday == 0) {
+        weekday = "天"
       }
       dateDisplays[i] = {
         value: d.toLocaleDateString(),
-        displayValue: (d.getMonth()+1)+"月"+d.getDate()+"日(星期"+weekday+")",
+        displayValue: (d.getMonth() + 1) + "月" + d.getDate() + "日(星期" + weekday + ")",
         date: d
       }
       d = this.addDays(d, 1);
@@ -57,13 +57,35 @@ Page({
 
     //console.log('[打印] [准备插入时间和日期数据] 成功: ')
 
+
+    
+    //获取店铺信息
+    var branch = JSON.parse(options.branch)
+    console.log("branch:", branch)
+
+    console.log("table0",this.data.mahjongtables[0])
+    console.log("table1",this.data.mahjongtables[1])
+    var table;
+    //浦东店只有一台麻将机
+    if (branch==2){
+      table=this.data.mahjongtables.splice(1,1)
+    }else{
+      table=this.data.mahjongtables
+    }
+    
+    console.log("table",table)
+
     this.setData({
       tableTimeDisplays,
       dateDisplays,
       role: app.globalData.role,
+      branch: branch,
+      mahjongtables:table
+    }, () => {
+      this.queryBooking(dateDisplays[1].date, this, this.refreshTable)
     })
 
-    this.queryBooking(dateDisplays[1].date, this, this.refreshTable)
+
 
 
 
@@ -79,6 +101,7 @@ Page({
     return result;
   },
 
+  //branch代表分店的代号
   queryBooking: function queryBooking(date, thats, func) {
     const db = wx.cloud.database()
     const _ = db.command
@@ -86,9 +109,11 @@ Page({
     console.log(date, '收到的Date如上')
     var onlyDate = new Date(date);
     onlyDate.setHours(0, 0, 0, 0);
+    let branch = this.data.branch
     db.collection('mahjong_table_schedule').where({
       start_time: _.gte(onlyDate).and(_.lte(this.addDays(onlyDate, 1))),
-      status: _.neq('C')
+      status: _.neq('C'),
+      branch: db.command.eq(branch),
     }).get({
       success: res => {
         func(res)
@@ -255,6 +280,7 @@ Page({
       var d = new Date(event.detail.value.bookingdate);
       d.setHours(bookTimesOneTable[0].value);
       that.queryBooking(d, that, function (res) {
+        console.log(res)
         var flag = true
         var blength = bookTimesOneTable.length
         var bhours = d.getHours()
@@ -280,6 +306,7 @@ Page({
           that.unlock()
           return
         }
+        let branch = that.data.branch
         const db = wx.cloud.database()
         db.collection('mahjong_table_schedule').add({
           data: {
@@ -289,7 +316,8 @@ Page({
             table_id: bookTimesOneTable[0].tableid,
             phone: event.detail.value.phone,
             nick_name: nickName,
-            avatar_url: avatarUrl
+            avatar_url: avatarUrl,
+            branch: branch,
           },
           success: res => {
             // 在返回结果中会包含新创建的记录的 _id

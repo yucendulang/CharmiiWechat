@@ -73,7 +73,8 @@ Page({
       case 6: xingqi = "周六"; break;
       default: xingqi = "系统错误！"
     }
-    return month + '-' + day + ' ' + xingqi + ' ' + hour + '点'
+    //return month + '-' + day + ' ' + xingqi + ' ' + hour + '点'
+    return month + '-' + day + xingqi + hour + '点'
   },
 
     cancelOrder: function (event) {

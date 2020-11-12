@@ -1,17 +1,17 @@
 .table {
   border: 0px solid darkgray;
+  font-size: 12px;
 }
 .tr {
   display: flex;
   width: 100%;
   justify-content: flex-start;
-  height: 3rem;
+  height: 2rem;
   align-items: center;
   text-align: center;
 }
 .td {
     width:30%;
-    font-size: 16px;
     text-align: center;
 }
 .bg-w{
@@ -23,7 +23,7 @@
 .th {
   background: #3366FF;
   color: #fff;
-  height: 3rem;
+  height: 2rem;
   text-align: center;
 }
 

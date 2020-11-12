@@ -4,7 +4,7 @@
       <radio-group class="radio-group" name="bookingdate" bindchange="radioChange">
         <label class="radio" wx:for="{{dateDisplays}}" wx:key="value">
           <radio value="{{item.value}}" name="{{item.displayValue}}" checked="{{item.checked}}" />
-          {{item.value}}
+          {{item.displayValue}}
         </label>
       </radio-group>
     </scroll-view>
@@ -36,4 +36,7 @@
       预定
     </button>
   </form>
+
+  <view wx:if="{{branch==1}}"><view>当前您正在预定江浦公园店</view></view>
+  <view wx:if="{{branch==2}}"><view>当前您正在预定浦东店</view></view>
 </view>

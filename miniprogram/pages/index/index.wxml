@@ -14,7 +14,7 @@
   </view> -->
   <!-- 日麻预定 -->
   <view class="uploader" wx:if="{{dataReady==true}}">
-    <navigator url="../mahjongBooking/mahjongBooking" open-type="navigate" class="uploader-text">
+    <navigator url="../addressSelect/addressSelect" open-type="navigate" class="uploader-text">
       <text>日麻预定</text>
     </navigator>
   </view>
