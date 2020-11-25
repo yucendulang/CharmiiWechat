@@ -1,7 +1,7 @@
 <view class="table">
   <view class="tr bg-w">
     <view class="th" style="width:25%">时间</view>
-    <view class="th" style="width:10%">时常</view>
+    <view class="th" style="width:10%">时长</view>
     <view class="th" style="width:10%">桌子</view>
     <view class="th" style="width:30%">手机号</view>
     <view class="th" style="width:5%">C</view>
