@@ -37,6 +37,12 @@
     </button>
   </form>
 
-  <view wx:if="{{branch==1}}"><view>当前您正在预定江浦公园店</view></view>
-  <view wx:if="{{branch==2}}"><view>当前您正在预定浦东店</view></view>
+  <view wx:if="{{branch==1}}">
+    <view>当前您正在预定杨浦店</view>
+    <view>地址：齐齐哈尔路928号印坊创意园7栋108室（园区最里面右侧）</view>
+  </view>
+  <view wx:if="{{branch==2}}">
+    <view>当前您正在预定浦东店</view>
+    <view>地址：芳华路139号德必运动loft园区B座242室（园区左侧二楼）</view>
+  </view>
 </view>

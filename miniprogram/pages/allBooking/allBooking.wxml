@@ -13,8 +13,9 @@
     <view class="tr bg-g">
       <view class="td" style="width:25%">{{item.formatTime}}</view>
       <view class="td" style="width:10%">{{item.last_time}}小时</view>
-      <view class="td" style="width:10%" wx:if="{{item.table_id==1}}">八口</view>
-      <view class="td" style="width:10%" wx:else>四口</view>
+      <view class="td" style="width:10%" wx:if="{{item.table_id==1&&item.branch==1}}">八口</view>
+      <view class="td" style="width:10%" wx:if="{{item.table_id==1&&item.branch==2}}">四口</view>
+      <view class="td" style="width:10%" wx:if="{{item.table_id==2}}">四JP</view>
       <view class="td" style="width:30%">{{item.phone}}</view>
       <view class="td" style="width:5%">{{item.status}}</view>
       <view class="td" style="width:15%">{{item.nick_name}}</view>

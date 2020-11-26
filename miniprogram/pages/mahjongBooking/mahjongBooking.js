@@ -10,7 +10,7 @@ Page({
         checked: 'true'
       },
       {
-        name: '四口麻将机',
+        name: '四口(jpex)',
         value: '2',
       },
     ],
@@ -67,11 +67,11 @@ Page({
     console.log("table1",this.data.mahjongtables[1])
     var table;
     //浦东店只有一台麻将机
-    if (branch==2){
-      table=this.data.mahjongtables.splice(1,1)
-    }else{
-      table=this.data.mahjongtables
+    table=this.data.mahjongtables
+    if (branch ==2){
+      table[0].name="四口麻将机"
     }
+   
     
     console.log("table",table)
 

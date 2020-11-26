@@ -2,7 +2,7 @@
   <view class="tr bg-w">
     <view class="th" style="width:30%">时间</view>
     <view class="th" style="width:15%">时长</view>
-    <view class="th" style="width:10%">桌子</view>
+    <view class="th" style="width:15%">桌子</view>
     <view class="th" style="width:30%">手机号</view>
     <view class="th" style="width:15%">店铺</view>
     <view class="th" style="width:10%">取消</view>
@@ -11,10 +11,11 @@
     <view class="tr bg-g">
       <view class="td" style="width:30%">{{item.formatTime}}</view>
       <view class="td" style="width:15%">{{item.last_time}}小时</view>
-      <view class="td" style="width:10%" wx:if="{{item.table_id==1}}">八口</view>
-      <view class="td" style="width:10%" wx:else>四口</view>
+      <view class="td" style="width:10%" wx:if="{{item.table_id==1&&item.branch==1}}">八口</view>
+      <view class="td" style="width:10%" wx:if="{{item.table_id==1&&item.branch==2}}">四口</view>
+      <view class="td" style="width:10%" wx:if="{{item.table_id==2}}">四JP</view>
       <view class="td" style="width:30%">{{item.phone}}</view>
-      <view class="td" style="width:15%" wx:if="{{item.branch==1}}">江浦</view>
+      <view class="td" style="width:15%" wx:if="{{item.branch==1}}">杨浦</view>
       <view class="td" style="width:15%" wx:else>浦东</view>
       <button type="warn" size="mini" bindtap="cancelOrder" style="width: 10%; height: 2rem;" data-id="{{item._id}}">
         C

@@ -2,7 +2,7 @@
 <view class="container">
   <view class="uploader">
     <navigator url="../mahjongBooking/mahjongBooking?branch=1" open-type="navigate" class="uploader-text">
-      <text>江浦公园店</text>
+      <text>杨浦店</text>
     </navigator>
   </view>
   <view class="uploader">
