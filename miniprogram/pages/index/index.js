@@ -10,7 +10,7 @@ Page({
     requestResult: ''
   },
 
-  onLoad: function() {
+  onLoad: function () {
     if (!wx.cloud) {
       console.log("!wx.cloud enter")
       wx.redirectTo({
@@ -36,10 +36,42 @@ Page({
       }
     })
 
-    this.onGetOpenid()
+
+
+    wx.cloud.callFunction({
+      name: 'getServeTime',
+      data: {},
+      success: res => {
+        console.log('[云函数] [getServeTime] ServeTime: ', res.result, res.result.timeStamp)
+        app.globalData.serveTime = res.result.timeStamp
+        app.globalData.phoneTime = (new Date()).getTime()
+        app.globalData.TimeDiff = res.result.timeStamp - app.globalData.phoneTime
+        console.log('和服务器的时间差为 ', app.globalData.TimeDiff)
+        var s = app.globalData.serveTime
+        var p = app.globalData.phoneTime
+        this.setData({
+          serveTime: s,
+          phoneTime: p
+        })
+        var diffTime = 10000
+        var offset_GMT = new Date().getTimezoneOffset()
+        if (app.globalData.TimeDiff > diffTime | app.globalData.TimeDiff < -diffTime | offset_GMT != -480) {
+          console.log('进行跳转')
+          wx.redirectTo({
+            url: "/pages/timeError/timeError"
+          })
+        } else {
+          this.onGetOpenid()
+        }
+
+      },
+      fail: err => {
+        console.error('[云函数] [getServeTime] 调用失败', err)
+      }
+    })
   },
 
-  onGetUserInfo: function(e) {
+  onGetUserInfo: function (e) {
     if (!this.logged && e.detail.userInfo) {
       this.setData({
         logged: true,
@@ -49,7 +81,7 @@ Page({
     }
   },
 
-  onGetRole:function(){
+  onGetRole: function () {
     const db = wx.cloud.database()
     const _ = db.command
     //console.log(app.globalData.openid)
@@ -60,8 +92,8 @@ Page({
         try {
           //console.log(res)
           //console.log(res.data)
-          if(res.data!=null){
-            app.globalData.role=res.data[0].role
+          if (res.data != null) {
+            app.globalData.role = res.data[0].role
             this.setData({
               role: res.data[0].role
             })
@@ -74,7 +106,7 @@ Page({
     })
   },
 
-  onGetOpenid: function() {
+  onGetOpenid: function () {
     // 调用云函数
     wx.cloud.callFunction({
       name: 'login',
@@ -82,7 +114,9 @@ Page({
       success: res => {
         console.log('[云函数] [login] user openid: ', res.result.openid)
         app.globalData.openid = res.result.openid
-        this.setData({dataReady:true})
+        this.setData({
+          dataReady: true
+        })
         this.onGetRole()
       },
       fail: err => {
@@ -105,7 +139,7 @@ Page({
         })
 
         const filePath = res.tempFilePaths[0]
-        
+
         // 上传图片
         const cloudPath = 'my-image' + filePath.match(/\.[^.]+?$/)[0]
         wx.cloud.uploadFile({
@@ -117,7 +151,7 @@ Page({
             app.globalData.fileID = res.fileID
             app.globalData.cloudPath = cloudPath
             app.globalData.imagePath = filePath
-            
+
             wx.navigateTo({
               url: '../storageConsole/storageConsole'
             })

@@ -1,0 +1,6 @@
+<!--pages/TimeError/timerror.wxml-->
+<text>您手机的时间与服务器时间差距过大 会影响小程序的使用</text>
+<text>请检查您手机的时区是否为东八区以及是否开启了自动获取时间</text>
+<text>打开APP时您手机的时间为{{phoneTime}}</text>
+<text>服务器时间为{{serveTime}}</text>
+<text>您手机是东{{offset_GMT}}区</text>
