@@ -28,5 +28,5 @@
   </view>
   <view class="announce" style="font-size: {{fontSize}}rpx" >{{announcement}}</view>
   <view class="announce">{{serveTime}}|{{phoneTime}}</view>
-  <view>0.5.2</view>
+  <view>0.5.3</view>
 </view>
