@@ -1,0 +1,28 @@
+<!--pages/announcement/announcement.wxml-->
+<form bindsubmit="bindFormSubmit">
+    <view style="margin:3%">
+        <picker mode="date" name="getTime" value="{{date}}" start="2021-09-01" end="2022-09-01" bindchange="bindDateChange">
+            <view class="picker" style="color: #ff8719;">
+                获取时间: {{date}}
+            </view>
+        </picker>
+        <div style="color: #ff8719;">溢满种类</div>
+        <picker mode="selector" bindchange="yukamanBindPickerChange" value="{{yukamanTypeValue}}"
+            range="{{yukamanTypeArray}}">
+            <input placeholder="选择役满种类" name="yukamanType" bindinput="handleinput" data-name="status" style="width: 90%"
+                value="{{yukamanTypeArray[yukamanTypeValue]}}" disabled="true"  />
+        </picker>
+        <div style="color: #ff8719;">店铺</div>
+
+        <picker mode="selector" bindchange="bindPickerChange" value="{{branchValue}}" range="{{branchArray}}">
+            <input placeholder="选择店铺" name="branch" bindinput="handleinput" data-name="status" style="width: 90%"
+                value="{{branchArray[branchValue]}}" disabled="true" />
+        </picker>
+
+        <div style="color: #ff8719;">达成者</div>
+        <input class="fontSize" name="playerName" type="string" placeholder="填写达成者" />
+    </view>
+    <button style="color: white; background-color: #ff8719;width:90%" form-type='submit'>
+        增加
+    </button>
+</form>

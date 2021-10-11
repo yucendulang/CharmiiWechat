@@ -11,6 +11,16 @@
       <text>我的预定</text>
     </navigator>
   </view>
+  <view class="uploader" wx:if="{{dataReady==true}}">
+    <navigator url="/pages/yukaman/yukamanDisplay/yukamanDisplay" open-type="navigate" class="uploader-text">
+      <text>役满榜</text>
+    </navigator>
+  </view>
+  <view class="uploader" wx:if="{{dataReady==true}}">
+    <navigator url="/pages/yukaman/yukamanAdd/yukamanAdd" open-type="navigate" class="uploader-text">
+      <text>记录役满</text>
+    </navigator>
+  </view>
   <view class="uploader" wx:if="{{role=='admin'}}">
     <navigator url="../allBooking/allBooking" open-type="navigate" class="uploader-text">
       <text>所有预定</text>
@@ -28,5 +38,5 @@
   </view>
   <view class="announce" style="font-size: {{fontSize}}rpx" >{{announcement}}</view>
   <view class="announce">{{serveTime}}|{{phoneTime}}</view>
-  <view>0.5.3</view>
+  <view>0.5.4</view>
 </view>

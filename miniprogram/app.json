@@ -5,7 +5,9 @@
         "pages/myBooking/myBooking",
         "pages/addressSelect/addressSelect",
         "pages/timeError/timeError",
-        "pages/announcement/announcement"
+        "pages/announcement/announcement",
+        "pages/yukaman/yukamanDisplay/yukamanDisplay",
+        "pages/yukaman/yukamanAdd/yukamanAdd"
     ],
     "window": {
         "backgroundColor": "#F6F6F6",

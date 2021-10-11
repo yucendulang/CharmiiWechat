@@ -1,0 +1,33 @@
+.table {
+    border: 0px solid darkgray;
+    font-size: 14px;
+  }
+  .tr {
+    display: flex;
+    width: 100%;
+    justify-content: flex-start;
+    height: 2rem;
+    align-items: center;
+    text-align: center;
+  }
+  .td {
+      width:30%;
+      text-align: center;
+  }
+  .bg-w{
+    background: snow;
+  }
+  .bg-g{
+    background: #E6F3F9;
+  }
+  .th {
+    background: #3366FF;
+    color: #fff;
+    height: 2rem;
+    text-align: center;
+  }
+  
+  .wrap {
+    flex-wrap: wrap
+  }
+  
