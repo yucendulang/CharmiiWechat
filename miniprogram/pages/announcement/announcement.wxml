@@ -1,0 +1,12 @@
+<!--pages/announcement/announcement.wxml-->
+<form bindsubmit="bindFormSubmit">
+<view style="margin:3%">
+<div style="color: #ff8719;">公告内容</div>
+<textarea bindblur="bindTextAreaBlur"  auto-height placeholder="公告内容" name="textarea" maxlength="-1" value="{{announcement}}" />
+<div style="color: #ff8719;">字体大小</div>
+<input class="fontSize" name="fontSize" type="number" placeholder="字体大小" value="{{fontSize}}"/>
+</view>
+<button style="color: white; background-color: #ff8719;width:90%" form-type='submit' >
+     保存公告
+</button>
+</form>

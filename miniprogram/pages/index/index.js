@@ -44,6 +44,7 @@ Page({
           })
         } else {
           this.onGetOpenid()
+          this.onGetAnnounce()
         }
 
       },
@@ -85,6 +86,46 @@ Page({
           console.log(e)
         }
       }
+    })
+  },
+
+  onGetAnnounce:function(){
+    const db = wx.cloud.database()
+    const _ = db.command
+    db.collection('config').where({
+        type: 'announcement'
+    }).get({
+        success: res => {
+            console.log("index Page read Announcement", res)
+            this.setData({
+                announcement: res.data[0].content
+            })
+        },
+        fail: err => {
+            wx.showToast({
+                icon: 'none',
+                title: '查询记录失败'
+            })
+            console.error('[数据库] [查询记录] 失败：', err)
+        }
+    })
+
+    db.collection('config').where({
+        type: 'fontSize'
+    }).get({
+        success: res => {
+            console.log("index Page read Announcement fontSize", res)
+            this.setData({
+                fontSize: res.data[0].content
+            })
+        },
+        fail: err => {
+            wx.showToast({
+                icon: 'none',
+                title: '查询记录失败'
+            })
+            console.error('[数据库] [查询记录] 失败：', err)
+        }
     })
   },
 
