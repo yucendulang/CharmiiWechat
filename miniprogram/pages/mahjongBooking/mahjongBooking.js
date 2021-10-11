@@ -106,7 +106,7 @@ Page({
     const db = wx.cloud.database()
     const _ = db.command
     // 查询当前用户所有的 预定
-    console.log(date, '收到的Date如上')
+    //console.log(date, '收到的Date如上')
     var onlyDate = new Date(date);
     onlyDate.setHours(0, 0, 0, 0);
     let branch = this.data.branch
@@ -129,7 +129,7 @@ Page({
   },
 
   refreshTable: function (res) {
-    console.log('[数据库] [查询记录] 成功: ', res.data)
+    //console.log('[数据库] [查询记录] 成功: ', res.data)
     try {
       var fix = new Map();
       var ttd = this.data.tableTimeDisplays;
@@ -147,6 +147,9 @@ Page({
           if (ttd[i][j].selected == true) {
             fix['tableTimeDisplays[' + i + '][' + j + '].selected'] = false
           }
+          if (ttd[i][j].isOwn == true) {
+            fix['tableTimeDisplays[' + i + '][' + j + '].isOwn'] = false
+          }
         }
       }
 
@@ -160,7 +163,9 @@ Page({
 
         var i;
 
+        var isOwn=value.openid==app.globalData.openid
         for (i = h; i < h + l; i++) {
+          fix['tableTimeDisplays[' + tid + '][' + i + '].isOwn'] = isOwn
           fix['tableTimeDisplays[' + tid + '][' + i + '].booked'] = true
           fix['tableTimeDisplays[' + tid + '][' + i + '].nickname'] = value.nick_name
           fix['tableTimeDisplays[' + tid + '][' + i + '].avatarurl'] = value.avatar_url
@@ -217,7 +222,8 @@ Page({
   submitBooking: function (event) {
     var that = this
     // 必须是在用户已经授权的情况下调用
-    wx.getUserInfo({
+    wx.getUserProfile({
+      desc: '用于预定日麻桌',
       success: function (res) {
         var userInfo = res.userInfo
         var nickName = userInfo.nickName

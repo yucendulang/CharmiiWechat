@@ -1,17 +1,5 @@
 <!-- index.wxml -->
 <view class="container">
-  <!-- 用户 openid -->
-  <!-- <view class="userinfo">
-    <button 
-      open-type="getUserInfo" 
-      bindgetuserinfo="onGetUserInfo"
-      class="userinfo-avatar"
-      style="background-image: url({{avatarUrl}})"
-    ></button>
-    <view>
-      <button class="userinfo-nickname" bindtap="onGetOpenid">点击获取 openid</button>
-    </view>
-  </view> -->
   <!-- 日麻预定 -->
   <view class="uploader" wx:if="{{dataReady==true}}">
     <navigator url="../addressSelect/addressSelect" open-type="navigate" class="uploader-text">
@@ -28,7 +16,7 @@
       <text>所有预定</text>
     </navigator>
   </view>
-  <view class="uploader" wx:if="{{dataReady==true}}">
+  <view class="uploader" wx:if="{{dataReady==true&&role=='admin'}}">
     <navigator url="../timeError/timeError" open-type="navigate" class="uploader-text">
       <text>时间检查界面</text>
     </navigator>

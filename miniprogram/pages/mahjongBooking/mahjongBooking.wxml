@@ -13,7 +13,12 @@
         <view class="tablename">{{table.name}}</view>
         <label class="timeDisplays" wx:for="{{tableTimeDisplays[table.value]}}" wx:key="value">
           <block wx:if="{{item.display}}">
-            <view class="tr" data-id="{{item.value}}" data-table="{{table.value}}" wx:if="{{item.booked}}" style="display:flex;background-color:red;flex-wrap: nowrap; flex-direction: row">
+            <view class="tr" data-id="{{item.value}}" data-table="{{table.value}}" wx:if="{{item.isOwn}}" style="display:flex;background-color:blue;flex-wrap: nowrap; flex-direction: row">
+              <view>{{item.name}}</view>
+              <view style="font-size:10px">{{item.nickname}}</view>
+              <image class="image_frame" src="{{item.avatarurl}}" mode="scaleToFill" style="width: 16px; height: 16px;"></image>
+            </view>
+            <view class="tr" data-id="{{item.value}}" data-table="{{table.value}}" wx:elif="{{item.booked}}" style="display:flex;background-color:red;flex-wrap: nowrap; flex-direction: row">
               <view>{{item.name}}</view>
               <view style="font-size:10px" wx:if="{{role=='admin'}}">{{item.nickname}}</view>
               <image wx:if="{{role=='admin'}}" class="image_frame" src="{{item.avatarurl}}" mode="scaleToFill" style="width: 16px; height: 16px;"></image>
@@ -32,7 +37,7 @@
       <view>手机号:</view>
       <input class="phone-input" style="display: inline-block" display: inline-block name="phone" type="number" placeholder="请输入手机号" />
     </view>
-    <button style="opacity: {{opacity}};color: white; background-color: #ff8719;width:90%" form-type='submit' open-type="getUserInfo" disabled="{{opacity!=1}}">
+    <button style="opacity: {{opacity}};color: white; background-color: #ff8719;width:90%" form-type='submit' disabled="{{opacity!=1}}">
       预定
     </button>
   </form>
