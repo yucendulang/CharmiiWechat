@@ -46,9 +46,17 @@ Page({
       if (weekday == 0) {
         weekday = "天"
       }
+      var tips = ""
+      if (i == 0) {
+        tips = '今天'
+      } else if (i == 1) {
+        tips = '明天'
+      } else if (i == 2) {
+        tips = '后天'
+      }
       dateDisplays[i] = {
         value: d.toLocaleDateString(),
-        displayValue: (d.getMonth() + 1) + "月" + d.getDate() + "日(星期" + weekday + ")",
+        displayValue: (d.getMonth() + 1) + "月" + d.getDate() + "日(" + tips + "星期" + weekday + ")",
         date: d
       }
       d = this.addDays(d, 1);
@@ -58,29 +66,29 @@ Page({
     //console.log('[打印] [准备插入时间和日期数据] 成功: ')
 
 
-    
+
     //获取店铺信息
     var branch = JSON.parse(options.branch)
     console.log("branch:", branch)
 
-    console.log("table0",this.data.mahjongtables[0])
-    console.log("table1",this.data.mahjongtables[1])
+    console.log("table0", this.data.mahjongtables[0])
+    console.log("table1", this.data.mahjongtables[1])
     var table;
     //浦东店只有一台麻将机
-    table=this.data.mahjongtables
-    if (branch ==2){
-      table[0].name="四口麻将机"
+    table = this.data.mahjongtables
+    if (branch == 2) {
+      table[0].name = "四口麻将机"
     }
-   
-    
-    console.log("table",table)
+
+
+    console.log("table", table)
 
     this.setData({
       tableTimeDisplays,
       dateDisplays,
       role: app.globalData.role,
       branch: branch,
-      mahjongtables:table
+      mahjongtables: table
     }, () => {
       this.queryBooking(dateDisplays[1].date, this, this.refreshTable)
     })
@@ -163,7 +171,7 @@ Page({
 
         var i;
 
-        var isOwn=value.openid==app.globalData.openid
+        var isOwn = value.openid == app.globalData.openid
         for (i = h; i < h + l; i++) {
           fix['tableTimeDisplays[' + tid + '][' + i + '].isOwn'] = isOwn
           fix['tableTimeDisplays[' + tid + '][' + i + '].booked'] = true

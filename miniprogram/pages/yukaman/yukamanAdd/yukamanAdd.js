@@ -92,6 +92,9 @@ Page({
                     wx.redirectTo({
                         url: "/pages/yukaman/yukamanDisplay/yukamanDisplay"
                     })
+                },
+                fail:e=>{
+                    console.error(e)
                 }
             })
         } catch (e) {

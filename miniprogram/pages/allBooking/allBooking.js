@@ -19,6 +19,7 @@ Page({
   },
 
   onLoadByDate:function(d){
+    console.log("enter onLoadByDate")
     d.setHours(0, 0, 0, 0);
 
     const db = wx.cloud.database()
@@ -83,7 +84,8 @@ Page({
     }
     return month + '-' + day + ' ' + xingqi + ' ' + hour + '点'
   },
-  cancelOrder: function (id) {
+  cancelOrder: function (id,func) {
+    console.log('[cancelOrder]取消的id是',id)
     const db = wx.cloud.database()
     db.collection('mahjong_table_schedule').doc(id)
       .update({
@@ -95,7 +97,8 @@ Page({
           wx.showToast({
             title: '取消成功',
           })
-          console.log('[数据库] [新增记录] 成功，记录 _id: ', res._id)
+          console.log('[数据库] [新增记录] 成功，记录 _id: ', res,res._id)
+          func()
         },
         fail: err => {
           wx.showToast({
@@ -184,7 +187,9 @@ Page({
         if (sm.confirm) {
           console.log(that)
           that.cancelOrder(id)
-          that.onLoad()
+          wx.redirectTo({
+            url: "/pages/allBooking/allBooking"
+        })
           } else if (sm.cancel) {
             console.log('用户点击取消')
           }

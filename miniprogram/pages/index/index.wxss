@@ -140,3 +140,7 @@ page {
   line-height: 36rpx;
   margin: 10rpx;
 }
+
+.banben{
+  font-size: 24rpx;
+}

@@ -38,6 +38,6 @@
   </view>
   <view class="announce" style="font-size: {{fontSize}}rpx" >{{announcement}}</view>
   <view class="announce" style="font-size: {{fontSize}}rpx;color: red;" >{{redAnnouncement}}</view>
-  <view class="announce">{{serveTime}}|{{phoneTime}}</view>
-  <view>0.5.4</view>
+  <view class="banben">{{serveTime}}|{{phoneTime}}</view>
+  <view class="banben">0.5.5</view>
 </view>
