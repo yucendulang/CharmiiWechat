@@ -15,8 +15,10 @@ Page({
   },
 
   onLoad: function (options) {
+    this.onLoadByDate(new Date())
+  },
 
-    var d = new Date();
+  onLoadByDate:function(d){
     d.setHours(0, 0, 0, 0);
 
     const db = wx.cloud.database()
@@ -44,10 +46,8 @@ Page({
         }
       }
     })
-
-
-
   },
+
 
   formatTime: function (date1) {
     var date = new Date(date1); //返回当前时间对象
@@ -190,6 +190,14 @@ Page({
           }
         }
       })
-  }
+  },
   
+
+  bindDateChange: function (e) {
+    console.log('picker发送选择改变，携带值为', e.detail.value)
+    this.setData({
+        date: e.detail.value
+    })
+    this.onLoadByDate(new Date(e.detail.value))
+},
 })
