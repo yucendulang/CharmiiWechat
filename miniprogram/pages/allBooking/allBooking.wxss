@@ -9,6 +9,7 @@
   align-items: center;
   text-align: center;
   font-size:10px;
+  /*margin-right: -90px;*/
 }
 .td {
     width:15%;
@@ -17,6 +18,8 @@
   background: snow;
 }
 .bg-g{
+  margin-left:16.6%;
+  width: 83%;
   background: #E6F3F9;
 }
 .th {
@@ -25,4 +28,30 @@
   color: #fff;
   height: 2rem;
   font-size:12px;
+}
+/*
+.del {
+  background-color: orangered;
+  width: 90px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  -webkit-transform: translateX(90px);
+  transform: translateX(90px);
+  -webkit-transition: all 0.4s;
+  transition: all 0.4s;
+}*/
+
+.del {
+  background-color: rgb(255, 0, 0);
+  width: 19%;
+  height: 2rem;
+}
+
+.touch-move-active {
+  -webkit-transform: translateX(0);
+  transform: translateX(0);
+  background: rgb(197, 180, 30);
 }
