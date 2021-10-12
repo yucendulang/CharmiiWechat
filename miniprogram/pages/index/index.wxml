@@ -16,7 +16,7 @@
       <text>役满榜</text>
     </navigator>
   </view>
-  <view class="uploader" wx:if="{{dataReady==true}}">
+  <view class="uploader" wx:if="{{role=='admin'}}">
     <navigator url="/pages/yukaman/yukamanAdd/yukamanAdd" open-type="navigate" class="uploader-text">
       <text>记录役满</text>
     </navigator>
