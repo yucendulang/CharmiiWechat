@@ -55,3 +55,7 @@
   transform: translateX(0);
   background: rgb(197, 180, 30);
 }
+
+.body{
+  overflow-x:hidden;
+}
