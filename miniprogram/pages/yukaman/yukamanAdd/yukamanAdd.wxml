@@ -1,9 +1,10 @@
 <!--pages/announcement/announcement.wxml-->
 <form bindsubmit="bindFormSubmit">
     <view style="margin:3%">
-        <picker mode="date" name="getTime" value="{{date}}" start="2021-09-01" end="2022-09-01" bindchange="bindDateChange">
-            <view class="picker" style="color: #ff8719;">
-                获取时间: {{date}}
+        <div style="color: #ff8719;">获取时间</div>
+        <picker mode="date" name="getTime" value="{{date}}" start="2021-09-01" end="2092-09-01" bindchange="bindDateChange">
+            <view class="picker">
+                点击填写 {{date}}
             </view>
         </picker>
         <div style="color: #ff8719;">溢满种类</div>
@@ -22,7 +23,8 @@
         <div style="color: #ff8719;">达成者</div>
         <input class="fontSize" name="playerName" type="string" placeholder="填写达成者" />
     </view>
-    <button style="color: white; background-color: #ff8719;width:90%" form-type='submit'>
+    <button style="color: white; background-color: #ff8719;width:90%" form-type='submit' disabled='{{addButtonEnable}}'>
         增加
     </button>
 </form>
+<view>不输入时间获取时间会默认填写为黑板年代</view>

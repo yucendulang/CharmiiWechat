@@ -1,4 +1,14 @@
-<!--pages/yukaman/yukamanDisplay.wxml-->
+<!--pages/yukaman/yukamanDisplay.wxml justify-content:space-around-->
+<view style="display:flex;flex-wrap: nowrap; flex-direction: row">
+  <div>玩家姓名筛选:</div>
+  <input style="border: 1px solid lightgray;border-radius: 5px;" bindinput="bindKeyInput">{{searchName}}</input>
+</view>
+<picker mode="selector" bindchange="yukamanTypeBindPickerChange" value="{{yukamanTypeValue}}"
+            range="{{yukamanTypeArray}}">
+            <view class="picker">
+              役满种类：{{yukamanTypeArray[yukamanTypeValue]}}
+            </view>
+</picker>
 <view class="table">
   <view class="tr bg-w">
     <view class="th" style="width:20%">获取时间</view>
@@ -9,11 +19,11 @@
   </view>
   <block wx:for="{{myYakuman}}" wx:key="{{value}}">
     <view class="tr bg-g">
-        <view class="th" style="width:20%">{{item.getTime}}</view>
-        <view class="th" style="width:25%">{{item.yukamanType}}</view>
-        <view class="th" style="width:10%">{{item.branch}}</view>
-        <view class="th" style="width:35%">{{item.playerName}}</view>
-        <view class="th" style="width:10%">待建</view>
+        <view class="td" style="width:20%">{{item.getTime}}</view>
+        <view class="td" style="width:25%">{{item.yukamanType}}</view>
+        <view class="td" style="width:10%">{{item.branch}}</view>
+        <view class="td" style="width:35%">{{item.playerName}}</view>
+        <view class="td" style="width:10%">待建</view>
     </view>
   </block>
 </view>

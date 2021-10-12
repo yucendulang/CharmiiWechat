@@ -7,8 +7,9 @@ Page({
     data: {
         branchArray: ['杨浦', '浦东'],
         branchValue: -1,
-        yukamanTypeArray: ["天和", "地和", "四暗刻", "大三元", "国士无双", "字一色", "绿一色", "小四喜", "清老头", "九莲宝灯", "四杠子", "纯正九莲宝灯", "四暗刻单骑", "国士无双十三面", "大四喜"],
+        yukamanTypeArray: ["天和", "地和", "四暗刻", "大三元", "国士无双", "字一色", "绿一色", "小四喜", "清老头", "九莲宝灯", "四杠子", "累计役满","纯正九莲宝灯", "四暗刻单骑", "国士无双十三面", "大四喜"],
         yukamanTypeValue: -1,
+        addButtonEnable:false,
     },
 
     /**
@@ -68,6 +69,7 @@ Page({
     },
 
     bindFormSubmit: function (e) {
+        this.addButtonEnable=true
         const db = wx.cloud.database()
         const _ = db.command
         console.log(e.detail.value.getTime)
