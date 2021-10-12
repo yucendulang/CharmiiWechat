@@ -93,12 +93,13 @@ Page({
     const db = wx.cloud.database()
     const _ = db.command
     db.collection('config').where({
-        type: 'announcement'
+        type: _.eq('announcement').or(_.eq('redAnnouncement'))
     }).get({
         success: res => {
             console.log("index Page read Announcement", res)
             this.setData({
-                announcement: res.data[0].content
+                announcement: res.data.filter(i=>i.type=='announcement')[0].content,
+                redAnnouncement: res.data.filter(i=>i.type=='redAnnouncement')[0].content
             })
         },
         fail: err => {

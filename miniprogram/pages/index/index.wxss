@@ -138,4 +138,5 @@ page {
 
 .announce{
   line-height: 36rpx;
+  margin: 10rpx;
 }
