@@ -5,7 +5,7 @@ Page({
      * 页面的初始数据
      */
     data: {
-        isSubmit:false
+        isSubmit: false
     },
 
     /**
@@ -66,63 +66,108 @@ Page({
                 console.error('[数据库] [查询记录] 失败：', err)
             }
         })
+        db.collection('config').where({
+            type: 'redFontSize'
+        }).get({
+            success: res => {
+                console.log("数据库成功", res)
+                this.setData({
+                    redFontSize: res.data[0].content
+                })
+            },
+            fail: err => {
+                wx.showToast({
+                    icon: 'none',
+                    title: '查询记录失败'
+                })
+                console.error('[数据库] [查询记录] 失败：', err)
+            }
+        })
+
+        db.collection('config').where({
+            type: 'blueAnnouncement'
+        }).get({
+            success: res => {
+                console.log("数据库成功", res)
+                this.setData({
+                    blueAnnouncement: res.data[0].content
+                })
+            },
+            fail: err => {
+                wx.showToast({
+                    icon: 'none',
+                    title: '查询记录失败'
+                })
+                console.error('[数据库] [查询记录] 失败：', err)
+            }
+        })
+        db.collection('config').where({
+            type: 'blueFontSize'
+        }).get({
+            success: res => {
+                console.log("数据库成功", res)
+                this.setData({
+                    blueFontSize: res.data[0].content
+                })
+            },
+            fail: err => {
+                wx.showToast({
+                    icon: 'none',
+                    title: '查询记录失败'
+                })
+                console.error('[数据库] [查询记录] 失败：', err)
+            }
+        })
     },
 
     bindFormSubmit: function (e) {
-        this.data.isSubmit=true
+        this.data.isSubmit = true
         console.log(e)
         console.log(e.detail.value.textarea)
         const db = wx.cloud.database()
         const _ = db.command
+        var _this = this
         try {
-            db.collection('config').where({
-                type: 'announcement'
-            }).update({
-                data: {
-                    content: e.detail.value.textarea
-                },
-                success:res=>{
-                    console.log(res)
-                    db.collection('config').where({
-                        type: 'redAnnouncement'
-                    }).update({
-                        data: {
-                            content: e.detail.value.redAnnouncement
-                        },
-                        success:res=>{
-                            db.collection('config').where({
-                                type: 'fontSize'
-                            }).update({
-                                data: {
-                                    content: e.detail.value.fontSize
-                                },
-                                success:res=>{
+            _this.updateConfig(db, 'announcement', e.detail.value.textarea, res => {
+                _this.updateConfig(db, 'redAnnouncement', e.detail.value.redAnnouncement, res => {
+                    _this.updateConfig(db, 'blueAnnouncement', e.detail.value.blueAnnouncement, res => {
+                        _this.updateConfig(db, 'fontSize', e.detail.value.fontSize, res => {
+                            _this.updateConfig(db, 'redFontSize', e.detail.value.redFontSize, res => {
+                                _this.updateConfig(db, 'blueFontSize', e.detail.value.blueFontSize, res => {
                                     wx.showToast({
                                         title: '成功',
-        
-                                      })
-                                      wx.redirectTo({
+
+                                    })
+                                    wx.redirectTo({
                                         url: "/pages/index/index"
-                                      })
-                                },
-                                fail:res=>{
-                                    console.log(res)
-                                    wx.showToast({
-                                        title: '失败了不知道为啥1 找Dulang',
-                                      })
-                                }
+                                    })
+                                })
                             })
-                    }})
-                },
-                fail:res=>{
-                    console.log(res)
-                    wx.showToast({
-                        title: '失败了不知道为啥 找Dulang',
-                      })
-                }
+                        })
+                    })
+                })
             })
         } catch (e) {
             console.error(e)
         }
+    },
+
+
+    updateConfig: function (db, type, content, successFunc) {
+        console.log(type,content,successFunc)
+        db.collection('config').where({
+            type: type
+        }).update({
+            data: {
+                content: content
+            },
+            success: successFunc,
+            fail: res => {
+                console.log(res)
+                wx.showToast({
+                    title: '失败了不知道为啥1 找Dulang',
+                })
+            }
+        })
     }
 })

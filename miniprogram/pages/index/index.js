@@ -93,13 +93,14 @@ Page({
     const db = wx.cloud.database()
     const _ = db.command
     db.collection('config').where({
-        type: _.eq('announcement').or(_.eq('redAnnouncement'))
+        type: _.eq('announcement').or(_.eq('redAnnouncement')).or(_.eq('blueAnnouncement'))
     }).get({
         success: res => {
             console.log("index Page read Announcement", res)
             this.setData({
                 announcement: res.data.filter(i=>i.type=='announcement')[0].content,
-                redAnnouncement: res.data.filter(i=>i.type=='redAnnouncement')[0].content
+                redAnnouncement: res.data.filter(i=>i.type=='redAnnouncement')[0].content,
+                blueAnnouncement: res.data.filter(i=>i.type=='blueAnnouncement')[0].content,
             })
         },
         fail: err => {
@@ -112,12 +113,14 @@ Page({
     })
 
     db.collection('config').where({
-        type: 'fontSize'
+        type: _.eq('fontSize').or(_.eq('redFontSize')).or(_.eq('blueFontSize'))
     }).get({
         success: res => {
-            console.log("index Page read Announcement fontSize", res)
+            //console.log("index Page read Announcement fontSize", res)
             this.setData({
-                fontSize: res.data[0].content
+                fontSize: res.data.filter(i=>i.type=='fontSize')[0].content,
+                redFontSize: res.data.filter(i=>i.type=='redFontSize')[0].content,
+                blueFontSize: res.data.filter(i=>i.type=='blueFontSize')[0].content,
             })
         },
         fail: err => {
