@@ -23,7 +23,8 @@
         <view class="td" style="width:25%">{{item.yukamanType}}</view>
         <view class="td" style="width:10%">{{item.branch}}</view>
         <view class="td" style="width:35%">{{item.playerName}}</view>
-        <view class="td" style="width:10%">待建</view>
+        <view class="td" style="width:10%" wx:if="{{role!='admin'}}">待建</view>
+        <view class="del" catchtap="del" data-id="{{item._id}}"  wx:else="{{role!='admin'}}">删除</view>
     </view>
   </block>
 </view>
