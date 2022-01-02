@@ -15,10 +15,10 @@ Page({
   },
 
   onLoad: function (options) {
-    this.onLoadByDate(new Date())
+    this.onLoadByDate(new Date(),1000)
   },
 
-  onLoadByDate:function(d){
+  onLoadByDate:function(d,endDay){
     console.log("enter onLoadByDate")
     d.setHours(0, 0, 0, 0);
 
@@ -27,7 +27,8 @@ Page({
 
     var opid
     db.collection('mahjong_table_schedule').where({
-      start_time: _.gte(d),
+     start_time: _.gte(d).and(_.lte(this.addDays(d,endDay))),
+     //start_time: _.gte(d),
     }).get({
       success: res => {
         try {
@@ -49,6 +50,11 @@ Page({
     })
   },
 
+  addDays: function addDays(date, days) {
+    var result = new Date(date);
+    result.setDate(result.getDate() + days);
+    return result;
+  },
 
   formatTime: function (date1) {
     var date = new Date(date1); //返回当前时间对象
@@ -203,6 +209,6 @@ Page({
     this.setData({
         date: e.detail.value
     })
-    this.onLoadByDate(new Date(e.detail.value))
+    this.onLoadByDate(new Date(e.detail.value),1)
 },
 })
