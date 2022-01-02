@@ -15,6 +15,8 @@ Page({
       },
     ],
     opacity: 0.4,
+    isGetUserProfile: false,
+    phone: "",
   },
   onLoad: function (options) {
 
@@ -82,14 +84,26 @@ Page({
     }
 
 
-    console.log("table", table)
+    //console.log("table", table)
+
+    var isGetUserProfile = true;
+    if (!wx.getStorageSync('storage_info')) {
+      isGetUserProfile = false
+    }
+
+    var phone = ""
+    if (wx.getStorageSync('phone')) {
+      phone = wx.getStorageSync('phone')
+    }
 
     this.setData({
       tableTimeDisplays,
       dateDisplays,
       role: app.globalData.role,
       branch: branch,
-      mahjongtables: table
+      mahjongtables: table,
+      isGetUserProfile: isGetUserProfile,
+      phone: phone,
     }, () => {
       this.queryBooking(dateDisplays[1].date, this, this.refreshTable)
     })
@@ -230,14 +244,26 @@ Page({
 
   submitBooking: function (event) {
     var that = this
-    // 必须是在用户已经授权的情况下调用
+    that.bookMahjongTable(event, wx.getStorageSync('nickName'), wx.getStorageSync('avatarUrl'))
+  },
+
+
+  getUserProfile: function getUserProfile() {
+    var that = this
     wx.getUserProfile({
-      desc: '用于预定日麻桌',
+      desc: '用于完善个人资料',
       success: function (res) {
+        console.log("授权成功", res)
         var userInfo = res.userInfo
-        var nickName = userInfo.nickName
-        var avatarUrl = userInfo.avatarUrl
-        that.bookMahjongTable(event, nickName, avatarUrl)
+        wx.setStorageSync('storage_info', 1); //本地标记
+        wx.setStorageSync('nickName', userInfo.nickName); //本地标记
+        wx.setStorageSync('avatarUrl', userInfo.avatarUrl); //本地标记
+        that.setData({
+          isGetUserProfile: true
+        })
+      },
+      fail() {
+        console.log("用户拒绝授权")
       }
     })
   },
@@ -254,6 +280,7 @@ Page({
       })
       return;
     }
+    wx.setStorageSync('phone', phone); //本地标记
     var ttd = this.data.tableTimeDisplays;
     var ttdflat = []
 

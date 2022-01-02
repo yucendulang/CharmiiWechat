@@ -35,9 +35,13 @@
     </scroll-view>
     <view style="margin:3%;display:flex;flex-wrap: nowrap; flex-direction: row;justify-content:space-around">
       <view>手机号:</view>
-      <input class="phone-input" style="display: inline-block" display: inline-block name="phone" type="number" placeholder="请输入手机号" />
+      <input class="phone-input" style="display: inline-block" display: inline-block name="phone" type="number" placeholder="请输入手机号" value="{{phone}}"/>
     </view>
-    <button style="opacity: {{opacity}};color: white; background-color: #ff8719;width:90%" form-type='submit' disabled="{{opacity!=1}}">
+
+    <button wx:if="{{!isGetUserProfile}}" style="color: white; background-color: #ff8719;width:90%"  bindtap="getUserProfile">
+      授权头像和昵称
+    </button> 
+    <button wx:else style="opacity: {{opacity}};color: white; background-color: #ff8719;width:90%" form-type='submit' disabled="{{opacity!=1}}">
       预定
     </button>
   </form>

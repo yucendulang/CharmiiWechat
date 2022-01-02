@@ -11,25 +11,25 @@ Page({
     searchName: "",
     inputValue: "",
     role: app.globalData.role,
+    myYakuman:[],
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    const db = wx.cloud.database()
-    const _ = db.command
-    db.collection('yakuman').get({
+    wx.cloud.callFunction({
+      name: 'getYukaman',
+      data: {},
       success: res => {
-        try {
-          this.myYakuman = res.data
-          console.log('役满榜的数据:', this.myYakuman)
-          this.setData({
-            myYakuman: this.myYakuman
-          })
-        } catch (e) {
-          console.log(e)
-        }
+        console.log(res)
+        this.myYakuman = res.result;
+        this.setData({
+          myYakuman: res.result
+        })
+      },
+      fail: err => {
+        console.error('[云函数] [getYukaman] 调用失败', err)
       }
     })
     this.setData({
@@ -126,11 +126,11 @@ Page({
     })
   },
 
-  del:function(e){
-    console.log('[del]',e)
+  del: function (e) {
+    console.log('[del]', e)
     console.log(this)
-    var that=this
-    var id=e.target.dataset.id
+    var that = this
+    var id = e.target.dataset.id
     wx.showModal({
       title: '提示',
       content: '确定要删除吗？',
@@ -140,33 +140,33 @@ Page({
           that.cancelYukaman(id)
           wx.redirectTo({
             url: "/pages/yukaman/yukamanDisplay/yukamanDisplay"
-        })
-          } else if (sm.cancel) {
-            console.log('用户点击取消')
-          }
+          })
+        } else if (sm.cancel) {
+          console.log('用户点击取消')
+        }
+      }
+    })
+  },
+
+  cancelYukaman: function (id, func) {
+    console.log('[cancelYukaman]取消的id是', id)
+    const db = wx.cloud.database()
+    db.collection('yakuman').doc(id)
+      .remove({
+        success: res => {
+          // 在返回结果中会包含新创建的记录的 _id
+          wx.showToast({
+            title: '取消成功',
+          })
+          func()
+        },
+        fail: err => {
+          wx.showToast({
+            icon: 'none',
+            title: '取消失败'
+          })
+          console.error('[数据库] [新增记录] 失败：', err)
         }
       })
-    },
-
-    cancelYukaman: function (id,func) {
-      console.log('[cancelYukaman]取消的id是',id)
-      const db = wx.cloud.database()
-      db.collection('yakuman').doc(id)
-        .remove({
-          success: res => {
-            // 在返回结果中会包含新创建的记录的 _id
-            wx.showToast({
-              title: '取消成功',
-            })
-            func()
-          },
-          fail: err => {
-            wx.showToast({
-              icon: 'none',
-              title: '取消失败'
-            })
-            console.error('[数据库] [新增记录] 失败：', err)
-          }
-        })
-    },
+  },
 })

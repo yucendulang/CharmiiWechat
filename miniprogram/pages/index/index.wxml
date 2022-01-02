@@ -37,8 +37,8 @@
     </navigator>
   </view>
   <view class="announce" style="font-size: {{fontSize}}rpx" >{{announcement}}</view>
-  <view class="announce" style="font-size: {{redFontSize}}rpx;color: red;" >{{redAnnouncement}}</view>
   <view class="announce" style="font-size: {{blueFontSize}}rpx;color: blue;" >{{blueAnnouncement}}</view>
+  <view class="announce" style="font-size: {{redFontSize}}rpx;color: red;" >{{redAnnouncement}}</view>
   <view class="banben">{{serveTime}}|{{phoneTime}}</view>
-  <view class="banben">0.5.6</view>
+  <view class="banben">0.5.7</view>
 </view>
