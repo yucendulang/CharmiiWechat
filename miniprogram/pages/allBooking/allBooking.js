@@ -38,6 +38,7 @@ Page({
             myBs[i].formatTime = this.formatTime(myBs[i].start_time)
             myBs[i].isTouchMove = false
             myBs[i].index = i
+            myBs[i].isOverNight = myBs[i].start_time.getHours() == 23 ? true : false
           }
           this.setData({
             myBs,

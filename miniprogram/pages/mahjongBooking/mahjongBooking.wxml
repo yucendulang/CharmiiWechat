@@ -52,6 +52,7 @@
   </view>
   <view wx:if="{{branch==2}}">
     <view>当前您正在预定浦东店</view>
+    <view>通宵场23:00—8:00，会员限定</view>
     <view>地址：芳华路139号德必运动loft园区B座242室（园区左侧二楼）</view>
   </view>
 </view>

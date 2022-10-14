@@ -10,7 +10,8 @@
   <block wx:for="{{myBs}}" wx:key="{{value}}">
     <view class="tr bg-g">
       <view class="td" style="width:30%">{{item.formatTime}}</view>
-      <view class="td" style="width:15%">{{item.last_time}}小时</view>
+      <view class="td" style="width:15%" wx:if="{{item.isOverNight}}">通宵</view>
+      <view class="td" style="width:15%" wx:else>{{item.last_time}}小时</view>
       <view class="td" style="width:10%" wx:if="{{item.table_id==1&&item.branch==1}}">八口</view>
       <view class="td" style="width:10%" wx:if="{{item.table_id==1&&item.branch==2}}">四口</view>
       <view class="td" style="width:10%" wx:if="{{item.table_id==2}}">四JP</view>

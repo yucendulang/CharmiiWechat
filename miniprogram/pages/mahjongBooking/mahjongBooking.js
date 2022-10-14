@@ -22,6 +22,14 @@ Page({
 
     var tableTimeDisplays = new Array();
     var tid;
+    //获取店铺信息
+    var branch = JSON.parse(options.branch)
+    console.log("branch:", branch)
+
+    console.log("table0", this.data.mahjongtables[0])
+    console.log("table1", this.data.mahjongtables[1])
+
+
     for (tid = 1; tid < 1 + 2; tid++) {
       var timeDisplays = new Array();
       var i;
@@ -30,6 +38,16 @@ Page({
         timeDisplays[i] = {
           name: i + ':00-' + (i + 1) + ':00',
           value: i,
+          booked: false,
+          display: true,
+          tableid: tid,
+          selected: false
+        }
+      }
+      if (branch == 2) {
+        timeDisplays[i] = {
+          name: '23:00-通宵场',
+          value: 23,
           booked: false,
           display: true,
           tableid: tid,

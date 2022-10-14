@@ -22,7 +22,8 @@
           direction="horizontal" inertia="true" bindtouchstart="touchstart" bindtouchmove="touchmove">
           <view class='tr' style="width:80%">
             <view class="td" style="width:20%">{{item.formatTime}}</view>
-            <view class="td" style="width:10%">{{item.last_time}}小时</view>
+            <view class="td" style="width:15%" wx:if="{{item.isOverNight}}">通宵</view>
+            <view class="td" style="width:15%" wx:else>{{item.last_time}}小时</view>
             <view class="td" style="width:10%" wx:if="{{item.table_id==1&&item.branch==1}}">八口</view>
             <view class="td" style="width:10%" wx:if="{{item.table_id==1&&item.branch==2}}">四口</view>
             <view class="td" style="width:10%" wx:if="{{item.table_id==2}}">四JP</view>
