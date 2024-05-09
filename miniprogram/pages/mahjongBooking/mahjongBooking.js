@@ -81,7 +81,7 @@ Page({
       }
       d = this.addDays(d, 1);
     }
-    dateDisplays[1].checked = true;
+    dateDisplays[0].checked = true;
 
     //console.log('[打印] [准备插入时间和日期数据] 成功: ')
 
@@ -98,7 +98,7 @@ Page({
     //这写的什么jb
     table = this.data.mahjongtables
     if (branch == 2) {
-      table[0].name = "四口商用机（小包厢）"
+      table[0].name = "四口商用机"
     }
 
 
@@ -123,7 +123,7 @@ Page({
       isGetUserProfile: isGetUserProfile,
       phone: phone,
     }, () => {
-      this.queryBooking(dateDisplays[1].date, this, this.refreshTable)
+      this.queryBooking(dateDisplays[0].date, this, this.refreshTable)
     })
 
 
